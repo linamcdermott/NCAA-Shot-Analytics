@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
+
+'''
+Get team names that made tournament from wikipedia
+'''
 
 SEASON = "2013-14"
 URL = "https://en.wikipedia.org/wiki/2014_NCAA_Division_I_Men%27s_Basketball_Tournament#Automatic_qualifiers"
