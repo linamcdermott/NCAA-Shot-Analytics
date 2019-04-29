@@ -13,28 +13,45 @@
   
  <img class= "court" src="/css/pictures/courtHalfBW.jpg">
 
- <div class="dropdown">
-  <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-  <div id="myDropdown" class="dropdown-content">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </div>
-</div>
+
  
  <a href="https://espn.com"> Here is a cool button selection </a>
 
 <br>
 <br>
-<br>
- <select id="teams-menu" onchange="dropdownSelect()">
+
+
+<!-- DROPDOWN MENU -->
+ <select class="customSelect" onchange="dropdownSelect()">
   <option value="all" selected>All teams</option>
   <option value="tournament">Tournament Teams</option>
   <option value="non-tournament">Non-tournament teams</option>
   <option value="Davidson">Davidson</option>
 </select>
-</body>
 
+
+<!-- STATS -->
+<br>
+<br>
+<br>
+<br>
+<!-- TODO - THERE HAS TO BE A BETTER WAY TO PAD RIGHT? -->
+<table id="statsTable">
+  <tr>
+    <td class="statTableTopRow">XX.X%</td>
+    <td class="statTableTopRow">X.XXX</td>
+    <td class="statTableTopRow">XX.X%</td>
+    <td class="statTableTopRow">XX.X%</td>
+  </tr>
+  <tr class="statsTableBottomRow">
+    <td>FG%</td>
+    <td>PPS</td>
+    <td>AST%</td>
+    <td>LAMA%</td>
+  </tr>
+
+
+</body>
 
 <!-- DROPDOWN MENU https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript -->
 <script>
@@ -43,32 +60,9 @@ function dropdownSelect() {
   var text = e.options[e.selectedIndex].text;
   alert(text); // do anything once selected (probably run a query)
 }
-
 </script>
 
 
-
-<script> 
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-} 
-</script>
 
 
 <!-- <script> 
@@ -82,7 +76,6 @@ for(var i = 0; i < pointsX.length; i++){
 } 
 </script> -->
 
-<span class="dot"></span>
 
 
 </html>
