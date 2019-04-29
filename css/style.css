@@ -12,7 +12,6 @@
          url('/css/fonts/futura_bold_italic_font-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 body{
     background-image: url("/css/pictures/background.jpg");
@@ -34,7 +33,69 @@ p{
     color:white;
     position: relative;
 }
+li{
+    font-family: 'Courier New', Courier, Monaco;
+    color:white;
+    position: relative;
+}
+table{
+    /* font-family: 'futuraheavy_italic'; */
+    font-family: 'Courier New', Courier, monospace; 
+    width:420px;
+    border:none;
+    border-collapse: collapse;
+}
+td{
+    color:red;
+    text-align: center;
+    height: 10px;
+    background-color: white;
+    font-size: 70%;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+}
+td.statTableTopRow{
+    color:red;
+    text-align:center;
+    font-size:200%;
+    padding:20px 0 0 0; /* top - right - botttom - left */
+    font-weight:bold;
+}
+select{
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+/* ul.statButtonVertical {
+}
+ul.statButton {
+    display:inline;
+}
+li.statButtonRow {
+    display:inline;
+    margin: 0 67px 0 0;
+    background: red;
+    /* background: #cce5ff; */
+/* }
+li.statButtonRowTop {
+    display:inline;
+    margin: 0 40px 0 0;
+    background: red;
+    font-size: 175%;
+}
+div.statButtonWrapper {
+    padding: 40px 5px 5px 5px; 
+/* } */
 
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(87, 221, 255);
+    border-radius: 50%;
+    display: inline-block;
+}
 
 
 a {
