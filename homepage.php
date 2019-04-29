@@ -10,11 +10,8 @@
  <p>Total number of shots</p>
  <p>Total number of makes</p>
  <p class=misses>Total number of misses</p>
-  
- <img class= "court" src="/css/pictures/courtHalfBW.jpg">
-
-
  
+
  <a href="https://espn.com"> Here is a cool button selection </a>
 
 <br>
@@ -64,18 +61,18 @@ function dropdownSelect() {
 
 
 
+ <div class="container">
+    <img src="/css/pictures/courtHalfBW.jpg">
+    <ul>
+        <li style = "color:red;left=50%;bottom=45%;"></li>
+        <li style = "left = 23%;bottom=87%"></li>
+    </ul>
+    <p> What's poppin bois </p>
 
-<!-- <script> 
-var pointsX = [300], pointsY = [450];
-for(var i = 0; i < pointsX.length; i++){
-    var div = document.createElement('div');
-    div.className = 'dot';
-    div.style.left = pointsX[i] + 'px';
-    div.style.top = pointsY[i] + 'px';
-    document.getElementById('wrapper').appendChild(div);
-} 
-</script> -->
-
-
+ </div>
+</body>
 
 </html>
+
+
+
