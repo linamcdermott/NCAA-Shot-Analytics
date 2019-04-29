@@ -16,11 +16,8 @@
 
  <div class="container">
     <img src="/css/pictures/courtHalfBW.jpg">
-    <ul>
-        <li style = "color:red;left=50%;bottom=45%;"></li>
-        <li style = "left = 23%;bottom=87%"></li>
-    </ul>
-    <p> What's poppin bois </p>
+    <span class="dot" style="position:absolute;left:44%;top:2%;"></span>  
+    <span class="dot" style="position:absolute;left:74%;top:25%;"></span>  
 
  </div>
 </body>

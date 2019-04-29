@@ -97,15 +97,15 @@ div.container{
     z-index: -1;
     
 }
+.dot {
+    height: 5px;
+    width: 5px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+  }
 
-.container ul{
-    position: absolute;    
-}
-.container li {
-    color: red;
-    
 
-}
 
 
 
