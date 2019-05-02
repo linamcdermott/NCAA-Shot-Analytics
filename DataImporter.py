@@ -10,7 +10,7 @@ def importData():
 
     team = db["team"]
     game = db["game"]
-
+    
     x = team.delete_many({})
     x = game.delete_many({})
 
@@ -29,6 +29,7 @@ def importData():
         drafted_list.append(line)
 
     in_file.close()
+
 
     for i in range(13,19):
 
@@ -74,14 +75,17 @@ def importData():
                         make_bool = False
 
                     # Update number of points and LAMA
-                    points = 2
-                    if("THREE" in row[8]):
-                        points = 3
-                        lama_bool = True
-                    if(row[8] == "DUNK" or row[8] == "LAYUP" or row[8] == "TWO POINT TIP SHOT"):
-                        lama_bool = True
+                    if (make_bool):
+                        points = 2
+                        if("THREE" in row[8]):
+                            points = 3
+                            lama_bool = True
+                        if(row[8] == "DUNK" or row[8] == "LAYUP" or row[8] == "TWO POINT TIP SHOT"):
+                            lama_bool = True
+                        else:
+                            lama_bool = False
                     else:
-                        lama_bool = False
+                        points = 0
 
                     # Check if player was drafted
                     if(row[5] in drafted_list):
@@ -93,8 +97,6 @@ def importData():
                     game_obj = game.find_one({
                             "$and" : [
                                 {"date": row[0]}, {"home": home_team}, {"away": away_team}]})
-
-                   
     
                     # Check if the team exists
                     team_obj = team.find_one({"school" : school_1})
@@ -127,7 +129,7 @@ def importData():
                         team_doc = {
                             "school" : school_1,
                             
-                            str(i) + "-" + str(i+1): {
+                            "20" + str(i) + "-20" + str(i+1): {
                                 "tournament" : False,
                                 "home" : home_array,
                                 "away": away_array
@@ -138,14 +140,15 @@ def importData():
                     elif (not game_exists and team_exists):
                         # add game with current shot and update team's game array
                         game_doc = {
-                        "date" : row[0],
-                        "home" : home_team,
-                        "away" : away_team,
-                        "shots" : [],
+                            "date" : row[0],
+                            "home" : home_team,
+                            "away" : away_team,
+                            "home_shots" : [],
+                            "away_shots" : []
                         }
                         game_id = game.insert_one(game_doc).inserted_id
 
-                        season = str(i) + "-" + str(i+1)
+                        season = "20"+ str(i) + "-20" + str(i+1)
                         if (school_1 == home_team):
                             home_or_away = "home"
                         else:
@@ -172,7 +175,7 @@ def importData():
                         team_doc = {
                             "school" : school_1,
                             
-                            str(i) + "-" + str(i+1): {
+                            "20" + str(i) + "-20" + str(i+1): {
                                 "tournament" : False,
                                 "home" : home_array,
                                 "away": away_array
@@ -185,7 +188,8 @@ def importData():
                             "date" : row[0],
                             "home" : home_team,
                             "away" : away_team,
-                            "shots" : [],
+                            "home_shots" : [],
+                            "away_shots" : []
                         }
                         game_id = game.insert_one(game_doc).inserted_id
                     
@@ -201,12 +205,16 @@ def importData():
                         "points": points,
                         "LAMA": lama_bool
                     }
-
+                    
                     query = {"_id" : game_id}
-                    newvals = { "$push": { "shots": shot_doc } }
+
+                    if (school_1 == home_team):
+                        newvals = { "$push": { "home_shots": shot_doc } }
+                    else:
+                        newvals = { "$push": { "away_shots": shot_doc } }
                 
                     game.update_one(query, newvals)
-
+    
     filename = "tournament-teams.csv"
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -215,16 +223,8 @@ def importData():
 
             if any (row):
                 
-                season_obj = team.find_one({"school" : row[1]}).get(row[0])
-                
-                new_season = {
-                                "tournament" : True,
-                                "home" : season_obj.get("home"),
-                                "away": season_obj.get("away"),
-                            }
-
                 myquery = { "school" : row[1] }
-                newvals = {"$set": { row[0]: new_season }}
+                newvals = {"$set": { str(row[0]) + ".tournament": True }}
 
                 team.update_one(myquery, newvals)
 
