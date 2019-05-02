@@ -2,7 +2,12 @@ import pymongo
 from pymongo import MongoClient
 import csv
 
+
+
 def importData():
+
+    # FOR DEBUGGING
+    # z = ""
 
     client = MongoClient()
 
@@ -33,6 +38,7 @@ def importData():
 
 
     for i in range(13,19):
+    # for i in range(13,14):
 
         filename = "ncaa-shots-" + str(i) + "-" + str(i+1) + ".csv"
         with open(filename) as csv_file:
@@ -40,6 +46,8 @@ def importData():
 
             #read col headers
             csv_reader.next()
+
+            season = "20"+ str(i) + "-20" + str(i+1)
 
             for row in csv_reader:
 
@@ -55,6 +63,15 @@ def importData():
                     """
                     # Get school names
                     school_1 = row[1]
+
+
+                    # # FOR DEBUGGING
+                    # if z != school_1:
+                    #     z = school_1
+                    # if (row[1] == "DUKE") and row[6] == "HOME":
+                    #     pass
+
+
                     if(row[1][-3:] == " ST"):
                         school_1 = row[1] + "ATE"
                     
@@ -65,9 +82,13 @@ def importData():
                     
                     # Check who is home and who is away
                     if(row[6] == "HOME"):
+                        home_bool = True
+                        home_or_away = "home"
                         home_team = school_1
                         away_team = school_2
                     else:
+                        home_or_away = "away"
+                        home_bool = False
                         home_team = school_2
                         away_team = school_1
 
@@ -84,12 +105,20 @@ def importData():
                         if("THREE" in row[8]):
                             points = 3
                             lama_bool = True
-                        if(row[8] == "DUNK" or row[8] == "LAYUP" or row[8] == "TWO POINT TIP SHOT"):
+                        elif(row[8] == "DUNK" or row[8] == "LAYUP" or row[8] == "TWO POINT TIP SHOT"):
                             lama_bool = True
                         else:
                             lama_bool = False
                     else:
                         points = 0
+                        if("THREE" in row[8]):
+                            lama_bool = True
+                        else:
+                            if (row[8] == "DUNK" or row[8] == "LAYUP" or row[8] == "TWO POINT TIP SHOT"):
+                                lama_bool = True
+                            else:
+                                lama_bool = False
+
 
                     # Check if player was drafted
                     if(row[5] in drafted_list):
@@ -121,9 +150,10 @@ def importData():
                         team_exists = True
                         team_id = team_obj.get("_id")
 
+
                     if (game_exists and not team_exists):
                         # add team, including the game with the current shot
-                        if(school_1 == home_team):
+                        if(home_bool):
                             home_array = [game_id]
                             away_array = []
                         else:
@@ -139,7 +169,7 @@ def importData():
                                 "away": away_array
                             }     
                         }
-                        team_id = team.insert_one(team_doc)
+                        team_id = team.insert_one(team_doc).inserted_id
                         
                     elif (not game_exists and team_exists):
                         # add game with current shot and update team's game array
@@ -152,13 +182,11 @@ def importData():
                         }
                         game_id = game.insert_one(game_doc).inserted_id
 
-                        season = "20"+ str(i) + "-20" + str(i+1)
-                        if (school_1 == home_team):
+                        if (home_bool):
                             home_or_away = "home"
                         else:
                             home_or_away = "away"
 
-                        ## DOESN'T WORK ##    
                         szn =  season+"."+ home_or_away
                         query = {"_id": team_id}
                         newvals = { "$push" : { szn : game_id} }
@@ -168,8 +196,18 @@ def importData():
                     elif (not game_exists and not team_exists):
                         # add team and add game, then add game to team
 
+                        # add game
+                        game_doc = {
+                            "date" : row[0],
+                            "home" : home_team,
+                            "away" : away_team,
+                            "home_shots" : [],
+                            "away_shots" : []
+                        }
+                        game_id = game.insert_one(game_doc).inserted_id
+
                         # add team
-                        if(school_1 == home_team):
+                        if(home_bool):
                             home_array = [game_id]
                             away_array = []
                         else:
@@ -185,19 +223,18 @@ def importData():
                                 "away": away_array
                             }     
                         }
-                        team_id = team.insert_one(team_doc)
-
-                        # add game
-                        game_doc = {
-                            "date" : row[0],
-                            "home" : home_team,
-                            "away" : away_team,
-                            "home_shots" : [],
-                            "away_shots" : []
-                        }
-                        game_id = game.insert_one(game_doc).inserted_id
+                        team_id = team.insert_one(team_doc).inserted_id
                     
                     ## UPDATE SHOT REGARDLESS ##
+
+                    # does this game exist in the team's array or do we have to add it?
+                    szn =  season+"."+ home_or_away
+                    found_game = team.find_one({"$and" : [{"_id" : team_id}, {szn : game_id}]})
+                    if found_game == None:
+                        query = {"_id": team_id}
+                        newvals = { "$push" : { szn : game_id} }
+                        team.update_one(query, newvals)
+
                     shot_doc = {
                         "xloc" :row[3],
                         "yloc" : row[4],
@@ -212,7 +249,7 @@ def importData():
                     
                     query = {"_id" : game_id}
 
-                    if (school_1 == home_team):
+                    if (home_bool):
                         newvals = { "$push": { "home_shots": shot_doc } }
                     else:
                         newvals = { "$push": { "away_shots": shot_doc } }
@@ -220,18 +257,18 @@ def importData():
                     game.update_one(query, newvals)
 
     
-    filename = "tournament-teams.csv"
-    with open(filename) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+    # filename = "tournament-teams.csv"
+    # with open(filename) as csv_file:
+    #     csv_reader = csv.reader(csv_file, delimiter=',')
 
-        for row in csv_reader:
+    #     for row in csv_reader:
 
-            if any (row):
+    #         if any (row):
                 
-                myquery = { "school" : row[1] }
-                newvals = {"$set": { str(row[0]) + ".tournament": True }}
+    #             myquery = { "school" : row[1] }
+    #             newvals = {"$set": { str(row[0]) + ".tournament": True }}
 
-                team.update_one(myquery, newvals)
+    #             team.update_one(myquery, newvals)
 
  
 def main():
