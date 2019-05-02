@@ -31,6 +31,7 @@ def importData():
     in_file.close()
 
 
+
     for i in range(13,19):
 
         filename = "ncaa-shots-" + str(i) + "-" + str(i+1) + ".csv"
@@ -41,6 +42,7 @@ def importData():
             csv_reader.next()
 
             for row in csv_reader:
+
                 if any (row):
                     """
                     (1) If both the team and the game exist, update the game object with the current shot.
@@ -56,6 +58,7 @@ def importData():
                     if(row[1][-3:] == " ST"):
                         school_1 = row[1] + "ATE"
                     
+
                     school_2 = row[2]
                     if(row[2][-2:] == "ST"):
                         school_2 = row[2] + "ATE"
@@ -69,6 +72,7 @@ def importData():
                         away_team = school_1
 
                     # Check if shot was made
+
                     if(row[7] == "MADE"):
                         make_bool = True
                     else:
@@ -214,6 +218,7 @@ def importData():
                         newvals = { "$push": { "away_shots": shot_doc } }
                 
                     game.update_one(query, newvals)
+
     
     filename = "tournament-teams.csv"
     with open(filename) as csv_file:
@@ -231,6 +236,7 @@ def importData():
  
 def main():
     importData()
+
 
 if __name__ == '__main__':
     main()
