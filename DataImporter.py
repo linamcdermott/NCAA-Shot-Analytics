@@ -38,7 +38,7 @@ def importData():
 
 
     for i in range(13,19):
-    # for i in range(13,14):
+        print "i:", i
 
         filename = "ncaa-shots-" + str(i) + "-" + str(i+1) + ".csv"
         with open(filename) as csv_file:
@@ -257,18 +257,18 @@ def importData():
                     game.update_one(query, newvals)
 
     
-    # filename = "tournament-teams.csv"
-    # with open(filename) as csv_file:
-    #     csv_reader = csv.reader(csv_file, delimiter=',')
+    filename = "tournament-teams.csv"
+    with open(filename) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
 
-    #     for row in csv_reader:
+        for row in csv_reader:
 
-    #         if any (row):
+            if any (row):
                 
-    #             myquery = { "school" : row[1] }
-    #             newvals = {"$set": { str(row[0]) + ".tournament": True }}
+                myquery = { "school" : row[1] }
+                newvals = {"$set": { str(row[0]) + ".tournament": True }}
 
-    #             team.update_one(myquery, newvals)
+                team.update_one(myquery, newvals)
 
  
 def main():
