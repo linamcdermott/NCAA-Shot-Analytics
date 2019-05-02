@@ -6,6 +6,7 @@
     </head>
 
 <body>
+
 <h1 style="position:relative;left:20px;"><span>Ba$ket$</span></h1>
  <p class="header">Welcome to our shot database!</p>
  <!-- <p class="right-align">Welcome to our shot database 000</p> -->
@@ -129,4 +130,3 @@ function dropdownSelect() {
 
 </body>
 
-</html>
