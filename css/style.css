@@ -206,6 +206,13 @@ div.selector{
     border-radius: 50%;
     display: inline-block;
 }
+
+ul.game{
+    position: absolute;
+    right: 80px;
+    top: 10px;
+}
+
 /* 
 @mixin rangeThumb {
     width: 18px;

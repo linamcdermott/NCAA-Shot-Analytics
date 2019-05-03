@@ -7,6 +7,7 @@
 
 <body>
 
+
 <h1 style="position:relative;left:20px;"><span>Ba$ket$</span></h1>
  <p class="header">Welcome to our shot database!</p>
  <!-- <p class="right-align">Welcome to our shot database 000</p> -->
@@ -127,6 +128,23 @@ function dropdownSelect() {
 
 
 </script>
+
+<?php 
+require 'vendor/autoload.php';
+$conn = new MongoDB\Client('mongodb://localhost');
+
+$db = $conn->baskets;
+
+$game = $db->game;
+$team = $db->team;
+
+$game_coursor = $game->find(['home' =>"DUKE",'home_shots' =>);
+echo "<ul class=game>";
+foreach($game_coursor as $row){
+  echo "<li>$row[made]</li>";
+}
+echo "</ul>";
+?>
 
 </body>
 
