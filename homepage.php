@@ -6,7 +6,7 @@
     </head>
 
 <body>
-
+<!-- PHP HEADER -->
 
 <h1 style="position:relative;left:20px;"><span>Ba$ket$</span></h1>
  <p class="header">Welcome to our shot database!</p>
@@ -46,8 +46,26 @@
 
  <div class="container">
     <img src="/css/pictures/courtHalfBW.jpg">
-    <span class="dot" style="position:absolute;left:33%;top:46%;"></span>  
-    <span class="dot" style="position:absolute;left:53%;top:80%;"></span>  
+
+    <?php
+      require 'vendor/autoload.php';
+      $conn = new MongoDB\Client('mongodb://localhost');
+      $db = $conn->baskets;
+
+      $team = $db->team;
+      $shot = $db->shot;
+
+      $duke_1314 = $team->findOne(array('school' => 'DUKE'),array('season' => '2013-2014'));
+      $shot_makes = $shot ->find(['team_id' => $duke_1314['_id'], 'player_name' => 'RODNEY HOOD', 'type' => 'THREE POINT JUMPER', 'made' => true]);
+      // $make_count = count($shot_makes);
+      // echo "<p> $make_count </p>";
+      $count = 0;
+      foreach($shot_makes as $row){
+        $count ++;
+        echo "<span class = \"dot\" style= \"position:absolute;right:$row[yloc]%;bottom:$row[xloc]%;\"> </span>";
+      }
+      echo"<p>$count</p>";
+    ?>
  </div>
 
 
@@ -129,22 +147,8 @@ function dropdownSelect() {
 
 </script>
 
-<?php 
-require 'vendor/autoload.php';
-$conn = new MongoDB\Client('mongodb://localhost');
 
-$db = $conn->baskets;
 
-$game = $db->game;
-$team = $db->team;
-
-$game_coursor = $game->find(['home' =>"DUKE",'home_shots' =>);
-echo "<ul class=game>";
-foreach($game_coursor as $row){
-  echo "<li>$row[made]</li>";
-}
-echo "</ul>";
-?>
 
 </body>
 

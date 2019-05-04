@@ -12,13 +12,14 @@ def importData():
     shot = db["shot"]
     
     x = team.delete_many({})
-    x = shot.delete_many({})
+    y = shot.delete_many({})
+
 
     team.drop_indexes()
     shot.drop_indexes()
 
-    team.create_index([('school', pymongo.ASCENDING)], unique=True)
-    shot.create_index([('date', pymongo.ASCENDING), ("home", pymongo.ASCENDING ), ('away', pymongo.ASCENDING)], unique=True)
+    team.create_index([('school', pymongo.ASCENDING),('season',pymongo.ASCENDING)], unique=True)
+    # shot.create_index([('date', pymongo.ASCENDING), ("home", pymongo.ASCENDING ), ('away', pymongo.ASCENDING)], unique=True)
 
     drafted_list = []
 
@@ -84,12 +85,15 @@ def importData():
                         "season" : season,
                         "tournament": False
                         }
-                        team_id = team.insert_one(team_doc)
+                        team_id = team.insert_one(team_doc).inserted_id
+                        # print(team_id)
                     else:
                         team_id = team_obj.get("_id")
 
                     shot_doc = {
                         "team_id": team_id,
+                        "date": row[0],
+                        "season": season,
                         "xloc" :row[3],
                         "yloc" : row[4],
                         "player_name" : row[5],
@@ -112,7 +116,7 @@ def importData():
             if any (row):
                 
                 myquery = { "school" : row[1] }
-                newvals = {"$set": { str(row[0]) + ".tournament": True }}
+                newvals = {"$set": {"tournament": True }}
 
                 team.update_one(myquery, newvals)
 
