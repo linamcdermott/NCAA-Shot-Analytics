@@ -55,27 +55,30 @@ li{
 }
 table{
     font-family: 'futuraheavy_italic'; 
-    width:420px;
+    width:560px;
     border:none;
     border-collapse: collapse;
     position: absolute;
     left: 20px;
-    bottom: 450px;
+    /* bottom: 450px; */
+    bottom: 580px;
+
 }
 td{
     color:white;
     text-align: center;
-    height: 10px;
+
     background-color: red;
-    font-size: 70%;
+    font-size: 60%;
     border-left: 3px solid black;
     border-right: 3px solid black;
+    padding:0 0 5px 0; /* top - right - botttom - left */
 }
-td.statTableTopRow{
+td.statTableTopRow, .tooltip{
     color:white;
     text-align:center;
-    font-size:200%;
-    padding:20px 0 0 0; /* top - right - botttom - left */
+    font-size:175%;
+    padding:10px 0 0 0; /* top - right - botttom - left */
     font-weight:bold;
 }
 select{
@@ -110,7 +113,7 @@ ol{
     padding-left: 0;
 }
 
-button.plot {
+button.plot, button.reset {
     margin-left: 8px;
     background-color: white;
     border: red;
@@ -121,19 +124,20 @@ button.plot {
     width: 100px;
     height: 40px;
 }
-button.plot:hover,
-button.plot:focus {
+button.plot:hover, button.reset:hover,
+button.plot:focus, button.reset:focus {
     background-color: red;
     color: white;
 }
-button.plot.no-white-hover {
+button.plot.no-white-hover, button.reset.no-white-hover, {
     color: black;
     background-color: transparent;
 }
-button.plot:active, .active {
+button.plot:active, .active, button.reset:active {
     background-color:red;
     color: white;
 }
+
 /* ul.statButtonVertical {
 }
 ul.statButton {
@@ -164,6 +168,41 @@ div.statButtonWrapper {
 } */
 
 
+  
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    bottom: 100%;
+    
+    margin-left: -120px;
+    font-size: 30%;
+    background-color: white;
+    color: black;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+}
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+  }
+
+
+
+
 a {
  color:white;
  cursor:pointer;
@@ -179,43 +218,28 @@ a.no-white-hover {
  color:black;
  background:transparent
 }
-/* img.court{
-    vertical-align: bottom;
-    position: absolute;
-    left: 20px;
-    bottom: 40px;
-    
-    
-    height: 400px;
-    width: 424px;
-    border: 1px solid;
-    border-color: white;
-} */
 
 
 div.container{
-    vertical-align: bottom;
-    position: absolute;
-    left: 20px;
-    bottom: 5px;
-
-    bottom: 40px;
-    z-index: +1;
-    
-    height: 400px;
-    width: 424px;
-    
-}
-
-div.container{
-    vertical-align: bottom;
+    /* vertical-align: bottom;
     position: absolute;
     left: 20px;
     bottom: 40px;
     z-index: +1;
 
     height: 400px;
-    width: 424px;
+    width: 424px; */
+
+    vertical-align: bottom;
+    position: absolute;
+    left: 20px;
+    bottom: 50px;
+    z-index: +1;
+
+    height: 525px;
+    width: 560px;
+
+
 }
 /*397*/
 
