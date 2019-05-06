@@ -45,6 +45,7 @@ p{
 }
 p.header{
     left: 20px;
+    position: absolute;
 }
 li{
     font-family: 'Courier New', Courier, Monaco;
@@ -227,6 +228,11 @@ div.selector{
     width: 600px;
 }
 
+div.description {
+    position: absolute;
+    left: 20px;
+    width: 50%;
+}
 
 .container img{
     position: absolute;

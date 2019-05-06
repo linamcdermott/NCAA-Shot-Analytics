@@ -8,15 +8,17 @@
 <body>
 <!-- PHP HEADER -->
 
-<h1 style="position:relative;left:20px;"><span>Ba$ket$</span></h1>
- <p class="header">Welcome to our shot database!</p>
- <!-- <p class="right-align">Welcome to our shot database 000</p> -->
- <p class="header">Total number of shots</p>
- <p class="header">Total number of makes</p>
- <p class="header">Total number of misses</p>
- 
 
- <a style="position:relative;left:20px;" href="https://espn.com"> Here is a cool button selection </a>
+ <div class="description">
+ <h1 style="position:relative;"><span>Ba$ket$</span></h1>
+ <p>A shot analytics website.</p>
+ <p> We scraped ESPN and created a database of NCAA Division I men's basketball shots from the past 
+ six seasons. Our goal was to create a tool that could query the database and analyze the direction 
+ of shot selection in college basketball. </p>
+ <p>Has the analytics craze that has consumed the NBA affected college basketball? Has 
+ shot selection diverted from the mid-range to the three-point line and the area close to the basket?</p>
+ <p> <i> LM, AH, MW, AH <i> </p> 
+ </div>
 
 <br>
 <br>
