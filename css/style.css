@@ -36,6 +36,7 @@ h1 {
     font-family: 'futuraheavy_italic'; 
     color: white;
     position: relative;
+    font-size: 300%;
     
 }
 p{
@@ -52,7 +53,7 @@ li{
     position: relative;
 }
 table{
-    font-family: 'Courier New', Courier, monospace; 
+    font-family: 'futuraheavy_italic'; 
     width:420px;
     border:none;
     border-collapse: collapse;
@@ -61,16 +62,16 @@ table{
     bottom: 450px;
 }
 td{
-    color:red;
+    color:white;
     text-align: center;
     height: 10px;
-    background-color: white;
+    background-color: red;
     font-size: 70%;
     border-left: 3px solid black;
     border-right: 3px solid black;
 }
 td.statTableTopRow{
-    color:red;
+    color:white;
     text-align:center;
     font-size:200%;
     padding:20px 0 0 0; /* top - right - botttom - left */
@@ -210,12 +211,22 @@ div.selector{
     z-index: -1;
     
 }
-span.dot {
+span.dot_make {
     height: 5px;
     width: 5px;
     position: absolute;
     background-color: red;
     border-radius: 50%;
+    opacity: .7;
+    display: inline-block;
+}
+span.dot_miss{
+    height: 5px;
+    width: 5px;
+    position: absolute;
+    background-color: grey;
+    border-radius: 50%;
+    opacity: .3;
     display: inline-block;
 }
 
