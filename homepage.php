@@ -99,6 +99,9 @@
   <br>
   <br>
   <button>Only Shots Taken by Future NBA Draft Picks</button>
+  <br>
+  <br>
+  <button class=plot>PLOT!</button>
 </ol>
 
 <script>
