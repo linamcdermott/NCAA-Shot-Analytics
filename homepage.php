@@ -55,8 +55,8 @@
       $team = $db->team;
       $shot = $db->shot;
 
-      $duke_1314 = $team->findOne(array('school' => 'DUKE'),array('season' => '2013-2014'));
-      $shot_makes = $shot ->find(['team_id' => $duke_1314['_id'], 'player_name' => 'RODNEY HOOD', 'type' => 'THREE POINT JUMPER', 'made' => true]);
+      $MSTATE = $team->findOne(array('school' => 'MICHIGAN STATE'),array('season' => '2018-2019'));
+      $shot_makes = $shot ->find(['team_id' => $MSTATE['_id'], 'player_name' => 'CASSIUS WINSTON', 'type' => 'THREE POINT JUMPER',]);
       // $make_count = count($shot_makes);
       // echo "<p> $make_count </p>";
       $count = 0;
