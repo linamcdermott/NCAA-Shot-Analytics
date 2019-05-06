@@ -46,6 +46,7 @@ p{
 }
 p.header{
     left: 20px;
+    position: absolute;
 }
 li{
     font-family: 'Courier New', Courier, Monaco;
@@ -107,6 +108,31 @@ button:active, .active {
 ol{
     list-style: none;
     padding-left: 0;
+}
+
+button.plot {
+    margin-left: 8px;
+    background-color: white;
+    border: red;
+    color: red;
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 22px;
+    margin-right:25px;
+    width: 100px;
+    height: 40px;
+}
+button.plot:hover,
+button.plot:focus {
+    background-color: red;
+    color: white;
+}
+button.plot.no-white-hover {
+    color: black;
+    background-color: transparent;
+}
+button.plot:active, .active {
+    background-color:red;
+    color: white;
 }
 /* ul.statButtonVertical {
 }
@@ -203,6 +229,11 @@ div.selector{
     width: 600px;
 }
 
+div.description {
+    position: absolute;
+    left: 20px;
+    width: 50%;
+}
 
 .container img{
     position: absolute;
