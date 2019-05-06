@@ -1,3 +1,13 @@
+/* ESPN COURT PICTURE DIMENSIONS:
+    WIDTH:595 
+    HEIGHT:317
+   HALF COURT DIMENSIONS (NEED TO ROTATE FOR OUR HALF COURT:
+    WIDTH: 297.5
+    HEIGHT: 317
+    .9384858
+*/
+
+
 @font-face {
     font-family: 'futurabold_italic';
     src: url('/css/fonts/futura_bold_italic_font-webfont.woff2') format('woff2'),
@@ -180,6 +190,7 @@ div.container{
     height: 400px;
     width: 424px;
 }
+/*397*/
 
 div.selector{
     vertical-align: bottom;
@@ -199,13 +210,21 @@ div.selector{
     z-index: -1;
     
 }
-.dot {
+span.dot {
     height: 5px;
     width: 5px;
+    position: absolute;
     background-color: red;
     border-radius: 50%;
     display: inline-block;
 }
+
+ul.game{
+    position: absolute;
+    right: 80px;
+    top: 10px;
+}
+
 /* 
 @mixin rangeThumb {
     width: 18px;

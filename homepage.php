@@ -6,6 +6,7 @@
     </head>
 
 <body>
+<!-- PHP HEADER -->
 
 <h1 style="position:relative;left:20px;"><span>Ba$ket$</span></h1>
  <p class="header">Welcome to our shot database!</p>
@@ -45,8 +46,26 @@
 
  <div class="container">
     <img src="/css/pictures/courtHalfBW.jpg">
-    <span class="dot" style="position:absolute;left:33%;top:46%;"></span>  
-    <span class="dot" style="position:absolute;left:53%;top:80%;"></span>  
+
+    <?php
+      require 'vendor/autoload.php';
+      $conn = new MongoDB\Client('mongodb://localhost');
+      $db = $conn->baskets;
+
+      $team = $db->team;
+      $shot = $db->shot;
+
+      $MSTATE = $team->findOne(array('school' => 'MICHIGAN STATE'),array('season' => '2018-2019'));
+      $shot_makes = $shot ->find(['team_id' => $MSTATE['_id'], 'player_name' => 'CASSIUS WINSTON', 'type' => 'THREE POINT JUMPER',]);
+      // $make_count = count($shot_makes);
+      // echo "<p> $make_count </p>";
+      $count = 0;
+      foreach($shot_makes as $row){
+        $count ++;
+        echo "<span class = \"dot\" style= \"position:absolute;right:$row[yloc]%;bottom:$row[xloc]%;\"> </span>";
+      }
+      echo"<p>$count</p>";
+    ?>
  </div>
 
 
@@ -127,6 +146,9 @@ function dropdownSelect() {
 
 
 </script>
+
+
+
 
 </body>
 
