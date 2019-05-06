@@ -43,10 +43,10 @@
       $team = $db->team;
       $shot = $db->shot;
 
-      $m_state = $team->findOne(array('school' => 'CREIGHTON','season' => '2013-2014'));
-      echo "<p> $m_state[school], $m_state[season]</p>";
-      $shot_makes = $shot ->find(['team_id' => $m_state['_id'], 'player_name' => 'DOUG MCDERMOTT', made => true]);
-      $shot_misses = $shot ->find(['team_id' => $m_state['_id'],'player_name' => 'DOUG MCDERMOTT', made => false]);
+      $team_selection = $team->findOne(array('school' => 'MURRAY STATE','season' => '2018-2019'));
+      echo "<p> $team_selection[school], $team_selection[season]</p>";
+      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'], 'player_name' => 'JA MORANT', made => true]);
+      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'],'player_name' => 'JA MORANT', made => false]);
       // $make_count = count($shot_makes);
       // echo "<p> $make_count </p>";
       $makes = 0;
@@ -77,12 +77,14 @@
         }
         echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
       }
-      $FG = round($makes / ($makes + $misses) * 100,1);
-      $PPS = round($points / ($makes + $misses),3);
+      $total = $makes + $misses;
+      $FG = round($makes / ($total) * 100,1);
+      $PPS = round($points / ($total),3);
       $AST = round($assists / $makes * 100,1);
-      $lp = round($LAMA / ($makes + $misses) * 100,1);
+      $lp = round($LAMA / ($total) * 100,1);
 
- echo"   
+ echo"
+ <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
  </div>
  <table id=\"statsTable\">
   <tr>
@@ -113,6 +115,14 @@
   <option value="Davidson">Davidson</option>
 </select>
 
+<select class="customSelect" id="years-menu" onchange="dropdownSelect()">
+  <option value="2013-2014" >2013-2014</option>
+  <option value="2014-2015">2014-2015</option>
+  <option value="2015-2016">2015-2016</option>
+  <option value="2016-201">2016-2017</option>
+  <option value="2017-2018">2017-2018</option>
+  <option value="2018-2019" selected>2018-2019</option>
+</select>
 
 
 
@@ -153,7 +163,7 @@
 <script>
 $('button').click(function() {
     $(this).toggleClass("active");
-    alert("clicked/unclicked");
+    // alert("clicked/unclicked");
 });
 </script>
 
@@ -168,11 +178,11 @@ $(function() {
 
  <!-- DROPDOWN MENU https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript -->
 <script>
-function dropdownSelect() {
-  var e = document.getElementById("teams-menu");
-  var text = e.options[e.selectedIndex].text;
-  alert(text); // do anything once selected (probably run a query)
-}
+// function dropdownSelect() {
+//   var e = document.getElementById("teams-menu");
+//   var text = e.options[e.selectedIndex].text;
+//   alert(text); // do anything once selected (probably run a query)
+// }
 
 
 </script>
