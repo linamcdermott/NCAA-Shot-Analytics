@@ -30,7 +30,6 @@ body{
 }
 h1 {
     display: inline;
-    
     background-clip: border-box;
     background-color: red;
     font-family: 'futuraheavy_italic'; 
@@ -45,7 +44,8 @@ p{
     position: relative;
 }
 p.header{
-    left: 20px;
+    left: 30px;
+    top: 50px;
     position: absolute;
 }
 li{
@@ -59,9 +59,9 @@ table{
     border:none;
     border-collapse: collapse;
     position: absolute;
-    left: 20px;
+    left: 30px;
     /* bottom: 450px; */
-    bottom: 580px;
+    bottom: 570px;
 
 }
 td{
@@ -232,8 +232,8 @@ div.container{
 
     vertical-align: bottom;
     position: absolute;
-    left: 20px;
-    bottom: 50px;
+    left: 30px;
+    bottom: 40px;
     z-index: +1;
 
     height: 525px;
@@ -249,14 +249,14 @@ div.selector{
     left: 650px;
     bottom: 40px;
     /* background: green; */
-    height: 60%;
+    height: 525px;
     width: 600px;
 }
 
 div.description {
     position: absolute;
-    left: 20px;
-    width: 50%;
+    left: 30px;
+    width: 60%;
 }
 
 .container img{

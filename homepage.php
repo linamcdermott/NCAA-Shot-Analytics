@@ -60,7 +60,7 @@
       $LAMA = 0;
       foreach($shot_makes as $row){
         $right = $row['yloc'];
-        $left = $row['xloc'] * 1.9;
+        $left = $row['xloc'] * 1.8;
         $makes++;
         $points += $row['points'];
         if ($row['assist'] != 'n/a'){
@@ -74,7 +74,7 @@
       $count2 = 0;
       foreach($shot_misses as $row){
         $right = $row['yloc'];
-        $left = $row['xloc'] * 1.9;
+        $left = $row['xloc'] * 1.8;
         $misses++;
         if($row['LAMA'] == true){
           $LAMA += 1;
@@ -99,7 +99,7 @@
     <td class=\"tooltip\">$AST%
     <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
     <td class=\"tooltip\">$lp%
-    <span class='tooltiptext'>LAMA IS THE COOLEST STAT</span></td>
+    <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
   </tr>
   <tr class=\"statsTableBottomRow\">
     <td>FG%</td>
