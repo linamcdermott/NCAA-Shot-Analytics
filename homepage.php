@@ -28,19 +28,7 @@
 <br>
 <br>
 <!-- TODO - THERE HAS TO BE A BETTER WAY TO PAD RIGHT? -->
-<table id="statsTable">
-  <tr>
-    <td class="statTableTopRow">XX.X%</td>
-    <td class="statTableTopRow">X.XXX</td>
-    <td class="statTableTopRow">XX.X%</td>
-    <td class="statTableTopRow">XX.X%</td>
-  </tr>
-  <tr class="statsTableBottomRow">
-    <td>FG%</td>
-    <td>PPS</td>
-    <td>AST%</td>
-    <td>LAMA%</td>
-  </tr>
+
 
 
 <!-- </body> -->
@@ -57,19 +45,63 @@
       $team = $db->team;
       $shot = $db->shot;
 
-      $MSTATE = $team->findOne(array('school' => 'MICHIGAN STATE'),array('season' => '2018-2019'));
-      $shot_makes = $shot ->find(['team_id' => $MSTATE['_id'], 'player_name' => 'CASSIUS WINSTON', 'type' => 'THREE POINT JUMPER',]);
+      $team_selection = $team->findOne(array('school' => 'MURRAY STATE','season' => '2018-2019'));
+      echo "<p> $team_selection[school], $team_selection[season]</p>";
+      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'], 'player_name' => 'JA MORANT', made => true]);
+      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'],'player_name' => 'JA MORANT', made => false]);
       // $make_count = count($shot_makes);
       // echo "<p> $make_count </p>";
-      $count = 0;
+      $makes = 0;
+      $misses = 0;
+      $points = 0;
+      $assists = 0;
+      $LAMA = 0;
       foreach($shot_makes as $row){
-        $count ++;
-        echo "<span class = \"dot\" style= \"position:absolute;right:$row[yloc]%;bottom:$row[xloc]%;\"> </span>";
+        $right = $row[yloc];
+        $left = $row[xloc] * 1.9;
+        $makes++;
+        $points += $row[points];
+        if ($row[assist] != 'n/a'){
+          $assists += 1;
+        }
+        if($row[LAMA] == true){
+          $LAMA += 1;
+        }
+        echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
       }
-      echo"<p>$count</p>";
-    ?>
- </div>
+      $count2 = 0;
+      foreach($shot_misses as $row){
+        $right = $row[yloc];
+        $left = $row[xloc] * 1.9;
+        $misses++;
+        if($row[LAMA] == true){
+          $LAMA += 1;
+        }
+        echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+      }
+      $total = $makes + $misses;
+      $FG = round($makes / ($total) * 100,1);
+      $PPS = round($points / ($total),3);
+      $AST = round($assists / $makes * 100,1);
+      $lp = round($LAMA / ($total) * 100,1);
 
+ echo"
+ <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
+ </div>
+ <table id=\"statsTable\">
+  <tr>
+    <td class=\"statTableTopRow\">$FG%</td>
+    <td class=\"statTableTopRow\">$PPS</td>
+    <td class=\"statTableTopRow\">$AST%</td>
+    <td class=\"statTableTopRow\">$lp%</td>
+  </tr>
+  <tr class=\"statsTableBottomRow\">
+    <td>FG%</td>
+    <td>PPS</td>
+    <td>AST%</td>
+    <td>LAMA%</td>
+  </tr>";
+?>
 
 
  <div class="selector">
@@ -85,6 +117,14 @@
   <option value="Davidson">Davidson</option>
 </select>
 
+<select class="customSelect" id="years-menu" onchange="dropdownSelect()">
+  <option value="2013-2014" >2013-2014</option>
+  <option value="2014-2015">2014-2015</option>
+  <option value="2015-2016">2015-2016</option>
+  <option value="2016-201">2016-2017</option>
+  <option value="2017-2018">2017-2018</option>
+  <option value="2018-2019" selected>2018-2019</option>
+</select>
 
 
 
@@ -128,7 +168,7 @@
 <script>
 $('button').click(function() {
     $(this).toggleClass("active");
-    alert("clicked/unclicked");
+    // alert("clicked/unclicked");
 });
 </script>
 
@@ -143,11 +183,11 @@ $(function() {
 
  <!-- DROPDOWN MENU https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript -->
 <script>
-function dropdownSelect() {
-  var e = document.getElementById("teams-menu");
-  var text = e.options[e.selectedIndex].text;
-  alert(text); // do anything once selected (probably run a query)
-}
+// function dropdownSelect() {
+//   var e = document.getElementById("teams-menu");
+//   var text = e.options[e.selectedIndex].text;
+//   alert(text); // do anything once selected (probably run a query)
+// }
 
 
 </script>
