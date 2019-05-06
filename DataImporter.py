@@ -95,6 +95,8 @@ def importData():
                     if (shot_type == "THREE POINT JUMPER" or shot_type == "DUNK" or shot_type == "LAYUP"
                         or shot_type == "TWO POINT TIP SHOT"):
                         lama_bool = True
+                    else:
+                        lama_bool = False
                     
                     # Update points.
                     if (make_bool):

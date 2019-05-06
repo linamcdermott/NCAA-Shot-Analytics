@@ -47,8 +47,8 @@
 
       $team_selection = $team->findOne(array('school' => 'MURRAY STATE','season' => '2018-2019'));
       echo "<p> $team_selection[school], $team_selection[season]</p>";
-      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'], 'player_name' => 'JA MORANT', made => true]);
-      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'],'player_name' => 'JA MORANT', made => false]);
+      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'], 'player_name' => 'JA MORANT', 'made' => true]);
+      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'],'player_name' => 'JA MORANT', 'made' => false]);
       // $make_count = count($shot_makes);
       // echo "<p> $make_count </p>";
       $makes = 0;
@@ -57,24 +57,24 @@
       $assists = 0;
       $LAMA = 0;
       foreach($shot_makes as $row){
-        $right = $row[yloc];
-        $left = $row[xloc] * 1.9;
+        $right = $row['yloc'];
+        $left = $row['xloc'] * 1.9;
         $makes++;
-        $points += $row[points];
-        if ($row[assist] != 'n/a'){
+        $points += $row['points'];
+        if ($row['assist'] != 'n/a'){
           $assists += 1;
         }
-        if($row[LAMA] == true){
+        if($row['LAMA'] == true){
           $LAMA += 1;
         }
         echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
       }
       $count2 = 0;
       foreach($shot_misses as $row){
-        $right = $row[yloc];
-        $left = $row[xloc] * 1.9;
+        $right = $row['yloc'];
+        $left = $row['xloc'] * 1.9;
         $misses++;
-        if($row[LAMA] == true){
+        if($row['LAMA'] == true){
           $LAMA += 1;
         }
         echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
