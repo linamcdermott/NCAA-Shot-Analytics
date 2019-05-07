@@ -76,10 +76,34 @@
         }
       }
 
-      // if(isset($_POST['submit'])){
-      //   // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
-        
-      // }
+
+      $current_lama = $current_assist = $current_home = "both";
+
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if (empty($_POST["lama_radio"])) {
+          $current_lama = "both";
+        } else {
+          $current_lama = test_input($_POST["lama_radio"]);
+        }
+
+        if (empty($_POST["assist_radio"])) {
+          $current_assist = "both";
+        } else {
+          $current_assist = test_input($_POST["assist_radio"]);
+        }
+
+        if (empty($_POST["home_radio"])) {
+          $current_home = "both";
+        } else {
+          $current_home = test_input($_POST["home_radio"]);
+        }
+
+
+      }
+
+
 
       if($current_team == 'ALL TEAMS'){
         $team_selection = $team->find(array('season' => $current_season));
@@ -93,17 +117,29 @@
       else{
         $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
       }
-      // echo "<p> $team_selection[school], $team_selection[season]</p>";
+      
+      echo "<p> $current_season, $current_team</p>"; //print status in top left corner
+
       $makes = 0;
       $misses = 0;
       $points = 0;
       $assists = 0;
       $LAMA = 0;
+
       foreach($team_selection as $team){
-        $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true]);
-        $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false]);
-        // $make_count = count($shot_makes);
-        // echo "<p> $make_count </p>";
+        $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, "assist" => ""]);
+        $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false, "assist" => ""]);
+
+        // $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true]);
+        // $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false]);
+
+        // if ($current_assist == "false") {
+        //   $shot_makes = $shot_makes -> find(["assist" => "n/a"]);
+        //   $shot_misses = $shot_misses -> find(["assist" => "n/a"]);
+        // }
+
+        echo "<p> $current_assist</p>"; //print status in top left corner
+
         
         foreach($shot_makes as $row){
           $right = $row['yloc'];
@@ -216,31 +252,7 @@ foreach($teams as $t){
 }
 echo "</select> <br><br>"; 
 
-$current_lama = $current_assist = $current_home = "both";
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  if (empty($_POST["lama_radio"])) {
-    $current_lama = "both";
-  } else {
-    $current_lama = test_input($_POST["lama_radio"]);
-  }
-
-  if (empty($_POST["assist_radio"])) {
-    $current_assist = "both";
-  } else {
-    $current_assist = test_input($_POST["assist_radio"]);
-  }
-
-  if (empty($_POST["home_radio"])) {
-    $current_home = "both";
-  } else {
-    $current_home = test_input($_POST["home_radio"]);
-  }
-
-
-}
 
 function test_input($data) {
   $data = trim($data);
@@ -270,6 +282,7 @@ function test_input($data) {
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label>
+
   
 
   <br><br>
