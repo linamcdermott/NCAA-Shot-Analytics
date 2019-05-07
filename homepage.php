@@ -47,40 +47,99 @@
       $team = $db->team;
       $shot = $db->shot;
 
-      $team_selection = $team->findOne(array('school' => 'DUKE','season' => '2018-2019'));
-      echo "<p> $team_selection[school], $team_selection[season]</p>";
-      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'],  'made' => true]);
-      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'], 'made' => false]);
-      // $make_count = count($shot_makes);
-      // echo "<p> $make_count </p>";
+      $current_season = '2018-2019';
+      $current_team = 'DAVIDSON';
+      $all_teams = $team->find();
+      $teams = array();
+      foreach($all_teams as $t){
+        if (in_array($t["school"], $teams) == false){
+          
+          array_push($teams,$t["school"]);
+
+        }
+        
+      }
+      sort($teams);
+
+      echo "<form action=\"#\" method=\"post\">
+      <select name=\"teams[]\" class = \"customSelect\">
+      <option value=ALL TEAMS>ALL TEAMS</option>
+      <option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
+      <option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
+      foreach($teams as $t){  
+        echo "<option value=$t>$t</option>";
+
+      }
+      echo "</select>
+      <input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Values\" />
+      </form>";
+
+
+
+      if(isset($_POST['submit_teams'])){
+        // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
+        foreach ($_POST['teams'] as $select)
+        {
+          $current_team = $select; // Displaying Selected Value
+        }
+      }
+      
+      if(isset($_POST['submit'])){
+        // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
+        foreach ($_POST['Season'] as $select)
+        {
+          $current_season = $select; // Displaying Selected Value
+        }
+      }
+      if($current_team == 'ALL TEAMS'){
+        $team_selection = $team->find(array('season' => $current_season));
+      }
+      elseif ($current_team == "TOURNAMENT TEAMS"){
+        $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
+      }
+      elseif ($current_team == "NON-TOURNAMENT TEAMS"){
+        $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
+      }
+      else{
+        $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
+      }
+      // echo "<p> $team_selection[school], $team_selection[season]</p>";
       $makes = 0;
       $misses = 0;
       $points = 0;
       $assists = 0;
       $LAMA = 0;
-      foreach($shot_makes as $row){
-        $right = $row['yloc'];
-        $left = $row['xloc'] * 1.8;
-        $makes++;
-        $points += $row['points'];
-        if ($row['assist'] != 'n/a'){
-          $assists += 1;
+      foreach($team_selection as $team){
+        $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true]);
+        $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false]);
+        // $make_count = count($shot_makes);
+        // echo "<p> $make_count </p>";
+        
+        foreach($shot_makes as $row){
+          $right = $row['yloc'];
+          $left = $row['xloc'] * 1.8;
+          $makes++;
+          $points += $row['points'];
+          if ($row['assist'] != 'n/a'){
+            $assists += 1;
+          }
+          if($row['LAMA'] == true){
+            $LAMA += 1;
+          }
+          echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
         }
-        if($row['LAMA'] == true){
-          $LAMA += 1;
+        $count2 = 0;
+        foreach($shot_misses as $row){
+          $right = $row['yloc'];
+          $left = $row['xloc'] * 1.8;
+          $misses++;
+          if($row['LAMA'] == true){
+            $LAMA += 1;
+          }
+          echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
         }
-        echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
       }
-      $count2 = 0;
-      foreach($shot_misses as $row){
-        $right = $row['yloc'];
-        $left = $row['xloc'] * 1.8;
-        $misses++;
-        if($row['LAMA'] == true){
-          $LAMA += 1;
-        }
-        echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-      }
+      
       $total = $makes + $misses;
       $FG = round($makes / ($total) * 100,1);
       $PPS = round($points / ($total),3);
@@ -116,22 +175,18 @@
 
 <br>
 
-<!-- DROPDOWN MENU -->
-<select class="customSelect" id="teams-menu" onchange="dropdownSelect()">
-  <option value="all" selected>All teams</option>
-  <option value="tournament">Tournament Teams</option>
-  <option value="non-tournament">Non-tournament teams</option>
-  <option value="Davidson">Davidson</option>
-</select>
 
-<select class="customSelect" id="years-menu" onchange="dropdownSelect()">
+
+ <!-- <select class="customSelect" id="years-menu"  name="years-menu" method="post">
   <option value="2013-2014" >2013-2014</option>
   <option value="2014-2015">2014-2015</option>
   <option value="2015-2016">2015-2016</option>
-  <option value="2016-201">2016-2017</option>
+  <option value="2016-2017">2016-2017</option>
   <option value="2017-2018">2017-2018</option>
   <option value="2018-2019" selected>2018-2019</option>
-</select>
+</select>  -->
+
+<!--onchange="dropdownSelect()-->
 
 
 
@@ -150,6 +205,8 @@
 
 <br>
 <br>
+
+
 
 
 <!-- BUTTONS -->
@@ -174,6 +231,19 @@
   <button class=reset>RESET</button>
 </ol>
 
+
+<form action="#" method="post">
+<select name="Season[]"  class = "customSelect"> // Initializing Name With An Array
+  <option value="2013-2014">2013-2014</option>
+  <option value="2014-2015">2014-2015</option>
+  <option value="2015-2016">2015-2016</option>
+  <option value= "2016-2017">2016-2017</option>
+  <option value="2017-2018">2017-2018</option>
+  <option value="2018-2019"selected>2018-2019</option>
+</select>
+<input type="submit" name="submit" value="Get Selected Values" />
+</form>
+
 <script>
 $('button').click(function() {
     $(this).toggleClass("active");
@@ -188,17 +258,20 @@ $(function() {
 </script> -->
 
 
+
+
  </div>
 
  <!-- DROPDOWN MENU https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript -->
 <script>
-// function dropdownSelect() {
-//   var e = document.getElementById("teams-menu");
-//   var text = e.options[e.selectedIndex].text;
-//   alert(text); // do anything once selected (probably run a query)
-// }
-
-
+function dropdownSelect() {
+  var year = document.getElementById("years-menu");
+  var text = year.options[year.selectedIndex].text;
+  
+  // var e = document.getElementById("teams-menu");
+  // var text = e.options[e.selectedIndex].text;
+  // alert(text); // do anything once selected (probably run a query)
+}
 </script>
 
 
