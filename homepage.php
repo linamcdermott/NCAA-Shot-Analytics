@@ -253,28 +253,27 @@ function test_input($data) {
 
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
 
-  <br>
  
   <br>
-  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="true") echo "checked";?> value="true">LAMA Shots
-  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="false") echo "checked";?> value="false">Non-LAMA Shots
-  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="both") echo "checked";?> value="both">Both  
+  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="true") echo "checked";?> value="true">LAMA Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="false") echo "checked";?> value="false">Non-LAMA Shots<span class="checkmark"></span></label >
+  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label >
   <br><br>
   
   <br>
-  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="true") echo "checked";?> value="true">Assisted Shots
-  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="false") echo "checked";?> value="false">Non-Assisted Shots
-  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both  
+  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="true") echo "checked";?> value="true">Assisted Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="false") echo "checked";?> value="false">Non-Assisted Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both <span class="checkmark"></span></label>
   <br><br>
   
   <br>
-  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games
-  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games
-  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="both") echo "checked";?> value="both">Both  
+  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label>
   
 
   <br><br>
-  <input type="submit" name="submit" value="PLOT" class="plot">  
+  <input type="submit" name="submit" value="PLOT" class="plot"> 
 </form>
 
 <?php
@@ -285,13 +284,13 @@ function test_input($data) {
   echo $current_assist;
   echo "<br>";
   echo $current_home;
-?>
+?> 
 
 
 
 
 <!-- BUTTONS -->
-<ol>
+<!-- <ol>
   <button>Home Games</button>
   <button>Away Games</button>
   <br>
@@ -310,18 +309,8 @@ function test_input($data) {
   <br>
   <button class=plot>PLOT</button> 
   <button class=reset>RESET</button>
-</ol>
+</ol> -->
 
-
-
-
-
-<script>
-$('button').click(function() {
-    $(this).toggleClass("active");
-    // alert("clicked/unclicked");
-});
-</script>
  </div>
 
 
