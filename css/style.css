@@ -24,9 +24,9 @@
     font-style: normal;
 }
 body{
-    /* background-image: url("/css/pictures/background.jpg"); */
+    background-image: url("/css/pictures/background.jpg");
     background-size: 100%;
-    background-color: grey;
+    /* background-color: grey; */
 }
 h1 {
     display: inline;
@@ -88,6 +88,7 @@ select{
     color: white;
     border: 1px solid white;
 }
+
 button{
     background-color: transparent;
     border: none;
@@ -108,12 +109,13 @@ button:active, .active {
     background-color:red;
     color: white;
 }
+
 ol{
     list-style: none;
     padding-left: 0;
 }
 
-input.plot, button.reset {
+button.reset {
     margin-left: 8px;
     background-color: white;
     border: red;
@@ -167,6 +169,90 @@ div.statButtonWrapper {
     display: inline-block;
 } */
 
+
+/* Customize the label (the container) */
+.radio_group {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    border: none;
+
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 16px;
+  }
+  
+  /* Hide the browser's default radio button */
+  .radio_group input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: white;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .radio_group:hover input ~ .checkmark {
+    background-color: red;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .radio_group input:checked ~ .checkmark {
+    background-color: red;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .radio_group input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .radio_group .checkmark:after {
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: black;
+  }
+
+  input.plot{
+    margin-left: 8px;
+    background-color: white;
+    border: red;
+    color: red;
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 22px;
+    margin-right:25px;
+    width: 100px;
+    height: 40px;
+  }
 
   
 /* Tooltip text */
@@ -247,9 +333,9 @@ div.selector{
     vertical-align: bottom;
     position: absolute;
     left: 650px;
-    bottom: 40px;
+    bottom: 150px;
     /* background: green; */
-    height: 525px;
+    height: 510px;
     width: 600px;
 }
 
