@@ -288,6 +288,7 @@ function test_input($data) {
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==true) echo "checked";?> value=true>Assisted Shots<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==false) echo "checked";?> value=false>Non-Assisted Shots<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both <span class="checkmark"></span></label>
+  <br><br>
   
   <br>
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home==true) echo "checked";?> value=true>Home Games<span class="checkmark"></span></label>
@@ -390,6 +391,7 @@ function test_input($data) {
       }
       echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
     }
+    $count2 = 0;
     foreach($shot_misses as $row){
       $right = $row['yloc'];
       $left = $row['xloc'] * 1.8;
