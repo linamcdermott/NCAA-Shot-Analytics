@@ -61,18 +61,7 @@
       }
       sort($teams);
 
-      echo "<form action=\"#\" method=\"post\">
-      <select name=\"teams[]\" class = \"customSelect\">
-      <option value=ALL TEAMS>ALL TEAMS</option>
-      <option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
-      <option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
-      foreach($teams as $t){  
-        echo "<option value=$t>$t</option>";
-
-      }
-      echo "</select>
-      <input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Values\" />
-      </form>";
+      
 
 
 
@@ -177,30 +166,7 @@
 
 
 
- <!-- <select class="customSelect" id="years-menu"  name="years-menu" method="post">
-  <option value="2013-2014" >2013-2014</option>
-  <option value="2014-2015">2014-2015</option>
-  <option value="2015-2016">2015-2016</option>
-  <option value="2016-2017">2016-2017</option>
-  <option value="2017-2018">2017-2018</option>
-  <option value="2018-2019" selected>2018-2019</option>
-</select>  -->
-
-<!--onchange="dropdownSelect()-->
-
-
-
-<!-- YEAR RANGER SLIDER https://codepen.io/trevanhetzel/pen/rOVrGK -->
-<!-- <input type="range" min="1" max="7" steps="1" value="1">
-<ul class="range-labels">
-  <li>2012-13</li>
-  <li>2013-14</li>
-  <li>2014-15</li>
-  <li>2015-16</li>
-  <li>2016-17</li>
-  <li>2017-18</li>
-  <li class="active selected">2018-19</li>
-</ul> -->
+ 
 
 
 <br>
@@ -244,6 +210,20 @@
 <input type="submit" name="submit" value="Get Selected Values" />
 </form>
 
+<?php 
+echo "<form action=\"#\" method=\"post\">
+<select name=\"teams[]\" class = \"customSelect\">
+<option value=ALL TEAMS>ALL TEAMS</option>
+<option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
+<option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
+foreach($teams as $t){  
+  echo "<option value=$t>$t</option>";
+
+}
+echo "</select>
+<input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Values\" />
+</form>"; ?>
+
 <script>
 $('button').click(function() {
     $(this).toggleClass("active");
@@ -251,28 +231,14 @@ $('button').click(function() {
 });
 </script>
 
-<!-- <script>
-$(function() {
-  $('button').focus();
-});
-</script> -->
+
 
 
 
 
  </div>
 
- <!-- DROPDOWN MENU https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript -->
-<script>
-function dropdownSelect() {
-  var year = document.getElementById("years-menu");
-  var text = year.options[year.selectedIndex].text;
-  
-  // var e = document.getElementById("teams-menu");
-  // var text = e.options[e.selectedIndex].text;
-  // alert(text); // do anything once selected (probably run a query)
-}
-</script>
+
 
 
 
