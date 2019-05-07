@@ -151,11 +151,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (empty($_POST["home_radio"])) {
     $current_home = "both";
+    $current_home_string = $current_home;
   } else {
     $current_home = test_input($_POST["home_radio"]);
+    $current_home_string = $current_home;
   }
 
-
+  if (empty($_POST["drafted_radio"])) {
+    $current_drafted = "both";
+    $current_drafted_string = $current_drafted;
+  } else {
+    $current_drafted = test_input($_POST["drafted_radio"]);
+    $current_drafted_string = $current_drafted;
+  }
 }
 
 function test_input($data) {
@@ -180,7 +188,6 @@ function test_input($data) {
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==true) echo "checked";?> value=true>Assisted Shots<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==false) echo "checked";?> value=false>Non-Assisted Shots<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both <span class="checkmark"></span></label>
-  <br><br>
   
   <br>
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home==true) echo "checked";?> value=true>Home Games<span class="checkmark"></span></label>
@@ -252,8 +259,9 @@ function test_input($data) {
 
 ?> 
 
-
 </div>
+
+
 
 
 
@@ -269,6 +277,14 @@ $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA'
 //$make_count = count($shot_makes);
 //$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
 // echo "<p> $make_count </p>";
+
+echo "<p> $current_team $current_season </p>";
+echo "<p> LAMA: $current_lama</p>";
+echo "<p> AST: $current_assist</p>";
+echo "<p> HOME: $current_home_string</p>";
+echo "<p> DRAFTED PLAYERS: $current_drafted_string</p>";
+
+
 
 foreach($shot_makes as $row){
   $right = $row['yloc'];
