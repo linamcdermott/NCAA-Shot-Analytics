@@ -51,6 +51,7 @@
 
       $current_season = '2018-2019';
       $current_team = 'DAVIDSON';
+      $current_ast = "n/a";
 
 
       $all_teams = $team->find();
@@ -66,21 +67,27 @@
       sort($teams);
 
 
-      if(isset($_POST['submit_teams'])){
-        // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
-        foreach ($_POST['teams'] as $select)
-        {
-          $current_team = $select;
-        }
-      }
-      
-      if(isset($_POST['submit_years'])){
-        // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
+      if(isset($_POST["submit"])) {
+        // foreach ($_POST['lama-radio'] as $select)
+        // {
+        //   $current_lama = $select;
+        // }
+
         foreach ($_POST['Season'] as $select)
         {
           $current_season = $select;
         }
+
+        foreach ($_POST['teams'] as $select)
+        {
+          $current_team = $select;
+        }
+
+        $current_ast = ($_POST["ast-radio"]);
+        $current_lama = ($_POST["lama-radio"]);
       }
+
+
       if($current_team == 'ALL TEAMS'){
         $team_selection = $team->find(array('season' => $current_season));
       }
@@ -95,7 +102,7 @@
       }
       // echo "<p> $team_selection[school], $team_selection[season]</p>";
       // $school_print = find('season' => $current_season);
-      echo "<p> $current_season, $current_team</p>";
+      echo "<p> $current_season, $current_team</p>"; //print status in top left corner
       $makes = 0;
       $misses = 0;
       $points = 0;
@@ -104,8 +111,8 @@
       foreach($team_selection as $team){
         $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true]);
         $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false]);
-        // $make_count = count($shot_makes);
-        // echo "<p> $make_count </p>";
+
+        echo "<p> LAMA: $current_lama</p>"; //print status in top left corner
         
         foreach($shot_makes as $row){
           $right = $row['yloc'];
@@ -169,7 +176,8 @@
 <!-- BUTTONS -->
 
 <form action="#" method="post">
-<select name="Season[]"  class = "customSelect"> // Initializing Name With An Array
+
+<select name="Season[]"  class = "customSelect">
   <option value="2013-2014">2013-2014</option>
   <option value="2014-2015">2014-2015</option>
   <option value="2015-2016">2015-2016</option>
@@ -177,9 +185,9 @@
   <option value="2017-2018">2017-2018</option>
   <option value="2018-2019"selected>2018-2019</option>
 </select>
-<input type="submit" name="submit_years" value="Get Selected Value" />
-</form>
 
+<br>
+<br>
 
 <?php 
 echo "<form action=\"#\" method=\"post\">
@@ -189,17 +197,43 @@ echo "<form action=\"#\" method=\"post\">
 <option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
 foreach($teams as $t){  
   echo "<option value=$t>$t</option>";
-
 }
-echo "</select>
-<input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Value\" />
-</form>"; ?>
+echo "</select>"; ?>
+
+<br>
+<br>
+
+<input type="radio" name="home-away-radio" value="home">Home
+<input type="radio" name="home-away-radio" value="away">Away
+<input type="radio" name="home-away-radio" value="both" checked>Both
+
+<br>
+<br>
+
+<input type="radio" name="lama-radio" <?php if (isset($current_lama) && $current_lama==true) echo "checked";?> value=true>LAMA Shots
+<input type="radio" name="lama-radio" <?php if (isset($current_lama) && $current_lama==false) echo "checked";?> value=false>Non-LAMA Shots
+<input type="radio" name="lama-radio" <?php if (isset($current_lama) && $current_lama=="") echo "checked";?> value="" checked>Both
+
+<br>
+<br>
+
+<input type="radio" name="ast-radio" <?php if (isset($current_ast) && $current_ast=="assisted") echo "checked";?> value="assisted">Assisted Shots
+<input type="radio" name="ast-radio" <?php if (isset($current_ast) && $current_ast=="unassisted") echo "checked";?> value="unassisted">Unassisted Shots
+<input type="radio" name="ast-radio" <?php if (isset($current_ast) && $current_ast=="") echo "checked";?> value="" checked>Both
+
+<br>
+<br>
+
+<input type="submit" name="submit" value="plot" />
+
+
+</form>
 
 
 <br>
 
 
-<ol>
+<!-- <ol>
   <button>Home Games</button>
   <button>Away Games</button>
   <br>
@@ -216,9 +250,8 @@ echo "</select>
   <br>
   <br>
   <br>
-  <button class=plot>PLOT</button> 
   <button class=reset>RESET</button>
-</ol>
+</ol> -->
 
 <script>
 $('button').click(function() {
