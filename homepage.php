@@ -47,8 +47,12 @@
       $team = $db->team;
       $shot = $db->shot;
 
+
+
       $current_season = '2018-2019';
       $current_team = 'DAVIDSON';
+
+
       $all_teams = $team->find();
       $teams = array();
       foreach($all_teams as $t){
@@ -61,23 +65,20 @@
       }
       sort($teams);
 
-      
-
-
 
       if(isset($_POST['submit_teams'])){
         // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
         foreach ($_POST['teams'] as $select)
         {
-          $current_team = $select; // Displaying Selected Value
+          $current_team = $select;
         }
       }
       
-      if(isset($_POST['submit'])){
+      if(isset($_POST['submit_years'])){
         // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
         foreach ($_POST['Season'] as $select)
         {
-          $current_season = $select; // Displaying Selected Value
+          $current_season = $select;
         }
       }
       if($current_team == 'ALL TEAMS'){
@@ -93,6 +94,8 @@
         $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
       }
       // echo "<p> $team_selection[school], $team_selection[season]</p>";
+      // $school_print = find('season' => $current_season);
+      echo "<p> $current_season, $current_team</p>";
       $makes = 0;
       $misses = 0;
       $points = 0;
@@ -162,20 +165,40 @@
  <div class="selector">
 <p style="font-weight:bold">Filter shot database:</p>
 
-<br>
-
-
-
- 
-
-
-<br>
-<br>
-
-
-
 
 <!-- BUTTONS -->
+
+<form action="#" method="post">
+<select name="Season[]"  class = "customSelect"> // Initializing Name With An Array
+  <option value="2013-2014">2013-2014</option>
+  <option value="2014-2015">2014-2015</option>
+  <option value="2015-2016">2015-2016</option>
+  <option value= "2016-2017">2016-2017</option>
+  <option value="2017-2018">2017-2018</option>
+  <option value="2018-2019"selected>2018-2019</option>
+</select>
+<input type="submit" name="submit_years" value="Get Selected Value" />
+</form>
+
+
+<?php 
+echo "<form action=\"#\" method=\"post\">
+<select name=\"teams[]\" class = \"customSelect\">
+<option value=ALL TEAMS>ALL TEAMS</option>
+<option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
+<option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
+foreach($teams as $t){  
+  echo "<option value=$t>$t</option>";
+
+}
+echo "</select>
+<input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Value\" />
+</form>"; ?>
+
+
+<br>
+
+
 <ol>
   <button>Home Games</button>
   <button>Away Games</button>
@@ -197,33 +220,6 @@
   <button class=reset>RESET</button>
 </ol>
 
-
-<form action="#" method="post">
-<select name="Season[]"  class = "customSelect"> // Initializing Name With An Array
-  <option value="2013-2014">2013-2014</option>
-  <option value="2014-2015">2014-2015</option>
-  <option value="2015-2016">2015-2016</option>
-  <option value= "2016-2017">2016-2017</option>
-  <option value="2017-2018">2017-2018</option>
-  <option value="2018-2019"selected>2018-2019</option>
-</select>
-<input type="submit" name="submit" value="Get Selected Values" />
-</form>
-
-<?php 
-echo "<form action=\"#\" method=\"post\">
-<select name=\"teams[]\" class = \"customSelect\">
-<option value=ALL TEAMS>ALL TEAMS</option>
-<option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
-<option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
-foreach($teams as $t){  
-  echo "<option value=$t>$t</option>";
-
-}
-echo "</select>
-<input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Values\" />
-</form>"; ?>
-
 <script>
 $('button').click(function() {
     $(this).toggleClass("active");
@@ -231,17 +227,7 @@ $('button').click(function() {
 });
 </script>
 
-
-
-
-
-
  </div>
-
-
-
-
-
 
 </body>
 
