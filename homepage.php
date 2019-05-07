@@ -69,15 +69,17 @@
         {
           $current_season = $select; // Displaying Selected Value
         }
-      }
 
-      if(isset($_POST['submit_teams'])){
-        // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
         foreach ($_POST['teams'] as $select)
         {
           $current_team = $select; // Displaying Selected Value
         }
       }
+
+      // if(isset($_POST['submit'])){
+      //   // As output of $_POST['Color'] is an array we have to use foreach Loop to display individual value
+        
+      // }
 
       if($current_team == 'ALL TEAMS'){
         $team_selection = $team->find(array('season' => $current_season));
@@ -193,9 +195,7 @@ foreach($all_years as $yr){
   // <option value='2016-2017'>2016-2017</option>
   // <option value='2017-2018'>2017-2018</option>
   // <option value='2018-2019'>2018-2019</option>
-  echo "</select>
-  <input type=\"submit\" name=\"submit\" value=\"Get Selected Values\" />
-  </form>";
+  echo "</select> <br><br>";
 
 
 
@@ -214,13 +214,78 @@ foreach($teams as $t){
  
 
 }
-echo "</select>
-<input type=\"submit\" name=\"submit_teams\" value=\"Get Selected Values\" />
-</form>"; ?>
+echo "</select> <br><br>"; 
 
-<br>
-<br>
+$current_lama = $current_assist = $current_home = "both";
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  if (empty($_POST["lama_radio"])) {
+    $current_lama = "both";
+  } else {
+    $current_lama = test_input($_POST["lama_radio"]);
+  }
+
+  if (empty($_POST["assist_radio"])) {
+    $current_assist = "both";
+  } else {
+    $current_assist = test_input($_POST["assist_radio"]);
+  }
+
+  if (empty($_POST["home_radio"])) {
+    $current_home = "both";
+  } else {
+    $current_home = test_input($_POST["home_radio"]);
+  }
+
+
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+
+  <br>
+  LAMA:
+  <br>
+  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="true") echo "checked";?> value="true">LAMA Shots
+  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="false") echo "checked";?> value="false">Non-LAMA Shots
+  <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="both") echo "checked";?> value="both">Both  
+  <br><br>
+  ASSISTED:
+  <br>
+  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="true") echo "checked";?> value="true">Assisted Shots
+  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="false") echo "checked";?> value="false">Non-Assisted Shots
+  <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both  
+  <br><br>
+  HOME/AWAY:
+  <br>
+  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games
+  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games
+  <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="both") echo "checked";?> value="both">Both  
+  
+
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
+</form>
+
+<?php
+  echo "<h2>Your Input:</h2>";
+
+  echo $current_lama;
+  echo "<br>";
+  echo $current_assist;
+  echo "<br>";
+  echo $current_home;
+?>
 
 
 
