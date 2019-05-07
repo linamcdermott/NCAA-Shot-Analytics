@@ -49,6 +49,7 @@
 
       $current_season = '2018-2019';
       $current_team = 'DAVIDSON';
+      $current_lama = $current_assist = $current_home = $current_drafted = "both";
 
       $all_teams = $team->find();
       $teams = array();
@@ -94,78 +95,95 @@
         $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
       }
       // echo "<p> $team_selection[school], $team_selection[season]</p>";
-      $makes = 0;
-      $misses = 0;
-      $points = 0;
-      $assists = 0;
-      $LAMA = 0;
-      foreach($team_selection as $team){
-        $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true]);
-        $shot_misses = $shot ->find(['team_id' => $team['_id'], 'made' => false]);
-        // $make_count = count($shot_makes);
-        // echo "<p> $make_count </p>";
+      // $makes = 0;
+      // $misses = 0;
+      // $points = 0;
+      // $assists = 0;
+      // $LAMA = 0;
+      // foreach($team_selection as $team){
+      //   if($current_lama == "both"){
+      //     $query_lama = array('$ne' => null);
+      //   }
+       
+      //   // if($current_assist == "both"){
+      //   //   $query_assist = array('$ne' => null);
+      //   // }
+      //   // if($current_home == "both"){
+      //   //   $current_home = array('$ne' => null);
+      //   // }
+      //   // if($current_drafted == "both"){
+      //   //   $current_drafted = array('$ne' => null);
+      //   // }
+
+
+      //   // $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $current_lama, 'assist' => $current_assist, 'player_drafted' => $current_drafted, 'home' => $current_home]);
+      //   $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
+      //   // $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $current_lama, 'assist' => $current_assist, 'player_drafted' => $current_drafted, 'home' => $current_home]);
+      //   //$make_count = count($shot_makes);
+      //   $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
+      //   // echo "<p> $make_count </p>";
         
-        foreach($shot_makes as $row){
-          $right = $row['yloc'];
-          $left = $row['xloc'] * 1.8;
-          $makes++;
-          $points += $row['points'];
-          if ($row['assist'] != 'n/a'){
-            $assists += 1;
-          }
-          if($row['LAMA'] == true){
-            $LAMA += 1;
-          }
-          echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-        }
-        $count2 = 0;
-        foreach($shot_misses as $row){
-          $right = $row['yloc'];
-          $left = $row['xloc'] * 1.8;
-          $misses++;
-          if($row['LAMA'] == true){
-            $LAMA += 1;
-          }
-          echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-        }
-      }
+      //   foreach($shot_makes as $row){
+      //     $right = $row['yloc'];
+      //     $left = $row['xloc'] * 1.8;
+      //     $makes++;
+      //     $points += $row['points'];
+      //     if ($row['assist'] != 'n/a'){
+      //       $assists += 1;
+      //     }
+      //     if($row['LAMA'] == true){
+      //       $LAMA += 1;
+      //     }
+      //     echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+      //   }
+      //   $count2 = 0;
+      //   foreach($shot_misses as $row){
+      //     $right = $row['yloc'];
+      //     $left = $row['xloc'] * 1.8;
+      //     $misses++;
+      //     if($row['LAMA'] == true){
+      //       $LAMA += 1;
+      //     }
+      //     echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+      //   }
+      // }
       
-      $total = $makes + $misses;
-      if($total <= 0){
-        $FG = 0.00;
-        $PPS = 0.00;
-        $AST = 0.00;
-        $lp = 0.00;
-      }
-      else{
-        $FG = round($makes / ($total) * 100,1);
-        $PPS = round($points / ($total),3);
-        $AST = round($assists / $makes * 100,1);
-        $lp = round($LAMA / ($total) * 100,1);
-      }
+//       $total = $makes + $misses;
+//       if($total <= 0){
+//         $FG = 0.00;
+//         $PPS = 0.00;
+//         $AST = 0.00;
+//         $lp = 0.00;
+//       }
+//       else{
+//         $FG = round($makes / ($total) * 100,1);
+//         $PPS = round($points / ($total),3);
+//         $AST = round($assists / $makes * 100,1);
+//         $lp = round($LAMA / ($total) * 100,1);
+//       }
   
 
- echo"
- <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
- </div>
- <table id=\"statsTable\">
-  <tr>
-    <td class=\"tooltip\">$FG%
-    <span class='tooltiptext'>Field Goal Percentage</span></td>
-    <td class=\"tooltip\">$PPS
-    <span class='tooltiptext'>Average points per shot</span></td>
-    <td class=\"tooltip\">$AST%
-    <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
-    <td class=\"tooltip\">$lp%
-    <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
-  </tr>
-  <tr class=\"statsTableBottomRow\">
-    <td>FG%</td>
-    <td>PPS</td>
-    <td>AST%</td>
-    <td>LAMA%</td>
-  </tr> 
-  ";
+//  echo"
+//  <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
+//  </div>
+//  <table id=\"statsTable\">
+//   <tr>
+//     <td class=\"tooltip\">$FG%
+//     <span class='tooltiptext'>Field Goal Percentage</span></td>
+//     <td class=\"tooltip\">$PPS
+//     <span class='tooltiptext'>Average points per shot</span></td>
+//     <td class=\"tooltip\">$AST%
+//     <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
+//     <td class=\"tooltip\">$lp%
+//     <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
+//   </tr>
+//   <tr class=\"statsTableBottomRow\">
+//     <td>FG%</td>
+//     <td>PPS</td>
+//     <td>AST%</td>
+//     <td>LAMA%</td>
+//   </tr> 
+//   ";
 ?>
 
 
@@ -173,6 +191,12 @@
 <p style="font-weight:bold">Filter shot database:</p>
 
 <?php 
+
+$makes = 0;
+$misses = 0;
+$points = 0;
+$assists = 0;
+$LAMA = 0;
 
 echo  "<form action='#' method='post'>
 <select name='Season[]'  class = 'customSelect'>";
@@ -216,7 +240,7 @@ foreach($teams as $t){
 }
 echo "</select> <br><br>"; 
 
-$current_lama = $current_assist = $current_home = "both";
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -255,21 +279,25 @@ function test_input($data) {
 
  
   <br>
-  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="true") echo "checked";?> value="true">LAMA Shots<span class="checkmark"></span></label>
-  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="false") echo "checked";?> value="false">Non-LAMA Shots<span class="checkmark"></span></label >
+  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama==true) echo "checked";?> value=true>LAMA Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama==false) echo "checked";?> value=false>Non-LAMA Shots<span class="checkmark"></span></label >
   <label class="radio_group"><input type="radio" name="lama_radio" class="radio"<?php if (isset($lama_radio) && $current_lama=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label >
-  <br><br>
+
   
   <br>
-  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="true") echo "checked";?> value="true">Assisted Shots<span class="checkmark"></span></label>
-  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="false") echo "checked";?> value="false">Non-Assisted Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==true) echo "checked";?> value=true>Assisted Shots<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist==false) echo "checked";?> value=false>Non-Assisted Shots<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both <span class="checkmark"></span></label>
-  <br><br>
   
   <br>
-  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games<span class="checkmark"></span></label>
-  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home==true) echo "checked";?> value=true>Home Games<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home==false) echo "checked";?> value=false>Away Games<span class="checkmark"></span></label>
   <label class="radio_group"><input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label>
+  
+  <br>
+  <label class="radio_group"><input type="radio" name="drafted_radio" <?php if (isset($drafted_radio) && $current_drafted==true) echo "checked";?> value=true>Player Drafted to the NBA<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="drafted_radio" <?php if (isset($drafted_radio) && $current_drafted==false) echo "checked";?> value=false>Players Not Drafted<span class="checkmark"></span></label>
+  <label class="radio_group"><input type="radio" name="drafted_radio" <?php if (isset($drafted_radio) && $current_drafted=="both") echo "checked";?> value="both">Both  <span class="checkmark"></span></label>
   
 
   <br><br>
@@ -277,13 +305,141 @@ function test_input($data) {
 </form>
 
 <?php
-  echo "<h2>Your Input:</h2>";
+  // echo "<h2>Your Input:</h2>";
+  // if($current_lama == "false"){
+  //   echo "<p>HELLO</p>";
+  // }
+  // echo $current_lama;
+  // echo "<br>";
+  // echo $current_assist;
+  // echo "<br>";
+  // echo $current_home;
+  // echo "<br>";
+  // echo $current_drafted;
+  // echo "<br>";
 
-  echo $current_lama;
-  echo "<br>";
-  echo $current_assist;
-  echo "<br>";
-  echo $current_home;
+  foreach($team_selection as $team){
+    if($current_lama == "both"){
+      $query_lama = array('$ne' => null);
+    }
+    elseif($current_lama == "false"){
+      $query_lama = false;
+    }
+    else{
+      $query_lama = true;
+    }
+
+    if($current_assist == "both"){
+      $query_assist = array('$ne' => null);
+    }
+    elseif($current_assist== "false"){
+      $query_assist = 'n/a';
+    }
+    else{
+      $query_assist = array('$ne' => 'n/a');
+    }
+
+    if($current_home == "both"){
+      $query_home = array('$ne' => null);
+    }
+    elseif($current_home == "false"){
+      $query_home = false;
+    }
+    else{
+      $query_home = true;
+    }
+
+    if($current_drafted == "both"){
+      $query_drafted = array('$ne' => null);
+    }
+    elseif($current_drafted == "false"){
+      $query_drafted = false;
+    }
+    else{
+      $query_drafted = true;
+    }
+   
+    if($current_assist == "both"){
+      $query_assist = array('$ne' => null);
+    }
+    if($current_home == "both"){
+      $current_home = array('$ne' => null);
+    }
+    if($current_drafted == "both"){
+      $current_drafted = array('$ne' => null);
+    }
+
+
+    $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
+    //$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
+    $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
+    //$make_count = count($shot_makes);
+    //$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
+    // echo "<p> $make_count </p>";
+    
+    foreach($shot_makes as $row){
+      $right = $row['yloc'];
+      $left = $row['xloc'] * 1.8;
+      $makes++;
+      $points += $row['points'];
+      if ($row['assist'] != 'n/a'){
+        $assists += 1;
+      }
+      if($row['LAMA'] == true){
+        $LAMA += 1;
+      }
+      echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+    }
+    foreach($shot_misses as $row){
+      $right = $row['yloc'];
+      $left = $row['xloc'] * 1.8;
+      $misses++;
+      if($row['LAMA'] == true){
+        $LAMA += 1;
+      }
+      echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+    }
+  }
+
+   
+  $total = $makes + $misses;
+  if($total <= 0){
+    $FG = 0.00;
+    $PPS = 0.00;
+    $AST = 0.00;
+    $lp = 0.00;
+  }
+  else{
+    $FG = round($makes / ($total) * 100,1);
+    $PPS = round($points / ($total),3);
+    $AST = round($assists / $makes * 100,1);
+    $lp = round($LAMA / ($total) * 100,1);
+  }
+
+
+echo"
+  <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
+  </div>
+  <table id=\"statsTable\">
+  <tr>
+  <td class=\"tooltip\">$FG%
+  <span class='tooltiptext'>Field Goal Percentage</span></td>
+  <td class=\"tooltip\">$PPS
+  <span class='tooltiptext'>Average points per shot</span></td>
+  <td class=\"tooltip\">$AST%
+  <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
+  <td class=\"tooltip\">$lp%
+  <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
+  </tr>
+  <tr class=\"statsTableBottomRow\">
+  <td>FG%</td>
+  <td>PPS</td>
+  <td>AST%</td>
+  <td>LAMA%</td>
+  </tr> 
+";
+
+
 ?> 
 
 
