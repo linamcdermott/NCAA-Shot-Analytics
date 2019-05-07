@@ -63,31 +63,31 @@ foreach($all_teams as $t){
 sort($teams);
 
 
-if(isset($_POST['submit'])){
-  // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
-  foreach ($_POST['Season'] as $select)
-  {
-    $current_season = $select; // Displaying Selected Value
-  }
+// if(isset($_POST['submit'])){
+//   // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
+//   foreach ($_POST['Season'] as $select)
+//   {
+//     $current_season = $select; // Displaying Selected Value
+//   }
 
-  foreach ($_POST['teams'] as $select)
-  {
-    $current_team = $select; // Displaying Selected Value
-  }
-}
+//   foreach ($_POST['teams'] as $select)
+//   {
+//     $current_team = $select; // Displaying Selected Value
+//   }
+// }
 
-if($current_team == 'ALL TEAMS'){
-  $team_selection = $team->find(array('season' => $current_season));
-}
-elseif ($current_team == "TOURNAMENT TEAMS"){
-  $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
-}
-elseif ($current_team == "NON-TOURNAMENT TEAMS"){
-  $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
-}
-else{
-  $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
-}
+// if($current_team == 'ALL TEAMS'){
+//   $team_selection = $team->find(array('season' => $current_season));
+// }
+// elseif ($current_team == "TOURNAMENT TEAMS"){
+//   $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
+// }
+// elseif ($current_team == "NON-TOURNAMENT TEAMS"){
+//   $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
+// }
+// else{
+//   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
+// }
 
 $makes = 0;
 $misses = 0;
@@ -117,9 +117,9 @@ echo "</select> <br><br>";
 
 echo "<form action=\"#\" method=\"post\">
 <select name=\"teams[]\" class = \"customSelect\">
-<option value=ALL TEAMS>ALL TEAMS</option>
-<option value=TOURNAMENT TEAMS>TOURNAMENT TEAMS</option>
-<option value=NON-TOURNAMENT TEAMS>NON-TOURNAMENT TEAMS</option>";
+<option value='ALL TEAMS'>ALL TEAMS</option>
+<option value='TOURNAMENT TEAMS'>TOURNAMENT TEAMS</option>
+<option value='NON-TOURNAMENT TEAMS'>NON-TOURNAMENT TEAMS</option>";
 foreach($teams as $t){  
   if($t == $current_team){
     echo "<option value=$t selected>$t</option>";
@@ -136,6 +136,27 @@ echo "</select> <br><br>";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  if(empty($_POST['Season'])){
+    $current_season = "2018-2019";
+  }
+  else{
+    foreach ($_POST['Season'] as $select)
+    {
+      $current_season = $select; // Displaying Selected Value
+    }
+
+  }
+  if(empty($_POST['teams'])){
+    $current_team = "DAVIDSON";
+  }else{
+    foreach ($_POST['teams'] as $select)
+    {
+      $current_team = $select; // Displaying Selected Value
+    }
+
+  }
+    // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
 
   if (empty($_POST["lama_radio"])) {
     $current_lama = "both";
@@ -206,71 +227,84 @@ function test_input($data) {
 
 <?php
 
-  foreach($team_selection as $team){
-    if($current_lama == "both"){
-      $query_lama = array('$ne' => null);
-    }
-    elseif($current_lama == "false"){
-      $query_lama = false;
-    }
-    else{
-      $query_lama = true;
-    }
-
-    if($current_assist == "both"){
-      $query_assist = array('$ne' => null);
-    }
-    elseif($current_assist== "false"){
-      $query_assist = 'n/a';
-    }
-    else{
-      $query_assist = array('$ne' => 'n/a');
-    }
-
-    if($current_home == "both"){
-      $query_home = array('$ne' => null);
-    }
-    elseif($current_home == "false"){
-      $query_home = false;
-    }
-    else{
-      $query_home = true;
-    }
-
-    if($current_drafted == "both"){
-      $query_drafted = array('$ne' => null);
-    }
-    elseif($current_drafted == "false"){
-      $query_drafted = false;
-    }
-    else{
-      $query_drafted = true;
-    }
-   
-    if($current_assist == "both"){
-      $query_assist = array('$ne' => null);
-    }
-    if($current_home == "both"){
-      $current_home = array('$ne' => null);
-    }
-    if($current_drafted == "both"){
-      $current_drafted = array('$ne' => null);
-    }
 
 ?> 
 
 </div>
 
 
-
-
-
-
 <div class="container">
 <img src="/css/pictures/new_court.png">
 
 <?php
-      
+
+if($current_team == 'ALL TEAMS'){
+  $team_selection = $team->find(array('season' => $current_season));
+}
+elseif ($current_team == "TOURNAMENT TEAMS"){
+  $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
+}
+elseif ($current_team == "NON-TOURNAMENT TEAMS"){
+  $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
+}
+else{
+  $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
+}
+
+foreach($team_selection as $team){
+
+  if($current_lama == "both"){
+    $query_lama = array('$ne' => null);
+  }
+  elseif($current_lama == "false"){
+    $query_lama = false;
+  }
+  else{
+    $query_lama = true;
+  }
+
+  if($current_assist == "both"){
+    $query_assist = array('$ne' => null);
+  }
+  elseif($current_assist== "false"){
+    $query_assist = 'n/a';
+  }
+  else{
+    $query_assist = array('$ne' => 'n/a');
+  }
+
+  if($current_home == "both"){
+    $query_home = array('$ne' => null);
+  }
+  elseif($current_home == "false"){
+    $query_home = false;
+  }
+  else{
+    $query_home = true;
+  }
+
+  if($current_drafted == "both"){
+    $query_drafted = array('$ne' => null);
+  }
+  elseif($current_drafted == "false"){
+    $query_drafted = false;
+  }
+  else{
+    $query_drafted = true;
+  }
+ 
+  if($current_assist == "both"){
+    $query_assist = array('$ne' => null);
+  }
+  if($current_home == "both"){
+    $current_home = array('$ne' => null);
+  }
+  if($current_drafted == "both"){
+    $current_drafted = array('$ne' => null);
+  }
+
+
+
 $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
 //$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
 $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
@@ -278,11 +312,8 @@ $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA'
 //$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
 // echo "<p> $make_count </p>";
 
-echo "<p> $current_team $current_season </p>";
-echo "<p> LAMA: $current_lama</p>";
-echo "<p> AST: $current_assist</p>";
-echo "<p> HOME: $current_home_string</p>";
-echo "<p> DRAFTED PLAYERS: $current_drafted_string</p>";
+
+
 
 
 
@@ -308,9 +339,17 @@ foreach($shot_misses as $row){
     $LAMA += 1;
   }
   echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-}
+  }
+
 }
 
+echo "<div class='current'>";
+echo "<p> $current_team $current_season </p>";
+echo "<p> LAMA: $current_lama</p>";
+echo "<p> AST: $current_assist</p>";
+echo "<p> HOME: $current_home_string</p>";
+echo "<p> DRAFTED PLAYERS: $current_drafted_string</p>";
+echo "</div>";
 
 $total = $makes + $misses;
 if($total <= 0){
