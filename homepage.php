@@ -94,96 +94,6 @@
       else{
         $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
       }
-      // echo "<p> $team_selection[school], $team_selection[season]</p>";
-      // $makes = 0;
-      // $misses = 0;
-      // $points = 0;
-      // $assists = 0;
-      // $LAMA = 0;
-      // foreach($team_selection as $team){
-      //   if($current_lama == "both"){
-      //     $query_lama = array('$ne' => null);
-      //   }
-       
-      //   // if($current_assist == "both"){
-      //   //   $query_assist = array('$ne' => null);
-      //   // }
-      //   // if($current_home == "both"){
-      //   //   $current_home = array('$ne' => null);
-      //   // }
-      //   // if($current_drafted == "both"){
-      //   //   $current_drafted = array('$ne' => null);
-      //   // }
-
-
-      //   // $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $current_lama, 'assist' => $current_assist, 'player_drafted' => $current_drafted, 'home' => $current_home]);
-      //   $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
-      //   // $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $current_lama, 'assist' => $current_assist, 'player_drafted' => $current_drafted, 'home' => $current_home]);
-      //   //$make_count = count($shot_makes);
-      //   $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
-      //   // echo "<p> $make_count </p>";
-        
-      //   foreach($shot_makes as $row){
-      //     $right = $row['yloc'];
-      //     $left = $row['xloc'] * 1.8;
-      //     $makes++;
-      //     $points += $row['points'];
-      //     if ($row['assist'] != 'n/a'){
-      //       $assists += 1;
-      //     }
-      //     if($row['LAMA'] == true){
-      //       $LAMA += 1;
-      //     }
-      //     echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-      //   }
-      //   $count2 = 0;
-      //   foreach($shot_misses as $row){
-      //     $right = $row['yloc'];
-      //     $left = $row['xloc'] * 1.8;
-      //     $misses++;
-      //     if($row['LAMA'] == true){
-      //       $LAMA += 1;
-      //     }
-      //     echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-      //   }
-      // }
-      
-//       $total = $makes + $misses;
-//       if($total <= 0){
-//         $FG = 0.00;
-//         $PPS = 0.00;
-//         $AST = 0.00;
-//         $lp = 0.00;
-//       }
-//       else{
-//         $FG = round($makes / ($total) * 100,1);
-//         $PPS = round($points / ($total),3);
-//         $AST = round($assists / $makes * 100,1);
-//         $lp = round($LAMA / ($total) * 100,1);
-//       }
-  
-
-//  echo"
-//  <p style=\"position:absolute;top:100%;\"> Shots Plotted: $total</p>   
-//  </div>
-//  <table id=\"statsTable\">
-//   <tr>
-//     <td class=\"tooltip\">$FG%
-//     <span class='tooltiptext'>Field Goal Percentage</span></td>
-//     <td class=\"tooltip\">$PPS
-//     <span class='tooltiptext'>Average points per shot</span></td>
-//     <td class=\"tooltip\">$AST%
-//     <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
-//     <td class=\"tooltip\">$lp%
-//     <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
-//   </tr>
-//   <tr class=\"statsTableBottomRow\">
-//     <td>FG%</td>
-//     <td>PPS</td>
-//     <td>AST%</td>
-//     <td>LAMA%</td>
-//   </tr> 
-//   ";
 ?>
 
 
@@ -306,18 +216,6 @@ function test_input($data) {
 </form>
 
 <?php
-  // echo "<h2>Your Input:</h2>";
-  // if($current_lama == "false"){
-  //   echo "<p>HELLO</p>";
-  // }
-  // echo $current_lama;
-  // echo "<br>";
-  // echo $current_assist;
-  // echo "<br>";
-  // echo $current_home;
-  // echo "<br>";
-  // echo $current_drafted;
-  // echo "<br>";
 
   foreach($team_selection as $team){
     if($current_lama == "both"){
