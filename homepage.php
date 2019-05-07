@@ -24,6 +24,8 @@
 <br>
 
 
+
+
 <!-- STATS -->
 <br>
 <br>
@@ -35,7 +37,7 @@
 
 
  <div class="container">
-    <img src="/css/pictures/courtHalfBW.jpg">
+    <img src="/css/pictures/new_court.png">
 
     <?php
       require 'vendor/autoload.php';
@@ -45,10 +47,10 @@
       $team = $db->team;
       $shot = $db->shot;
 
-      $team_selection = $team->findOne(array('school' => 'MURRAY STATE','season' => '2018-2019'));
+      $team_selection = $team->findOne(array('school' => 'DUKE','season' => '2018-2019'));
       echo "<p> $team_selection[school], $team_selection[season]</p>";
-      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'], 'player_name' => 'JA MORANT', 'made' => true]);
-      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'],'player_name' => 'JA MORANT', 'made' => false]);
+      $shot_makes = $shot ->find(['team_id' => $team_selection['_id'],  'made' => true]);
+      $shot_misses = $shot ->find(['team_id' => $team_selection['_id'], 'made' => false]);
       // $make_count = count($shot_makes);
       // echo "<p> $make_count </p>";
       $makes = 0;
@@ -58,7 +60,7 @@
       $LAMA = 0;
       foreach($shot_makes as $row){
         $right = $row['yloc'];
-        $left = $row['xloc'] * 1.9;
+        $left = $row['xloc'] * 1.8;
         $makes++;
         $points += $row['points'];
         if ($row['assist'] != 'n/a'){
@@ -72,7 +74,7 @@
       $count2 = 0;
       foreach($shot_misses as $row){
         $right = $row['yloc'];
-        $left = $row['xloc'] * 1.9;
+        $left = $row['xloc'] * 1.8;
         $misses++;
         if($row['LAMA'] == true){
           $LAMA += 1;
@@ -90,17 +92,22 @@
  </div>
  <table id=\"statsTable\">
   <tr>
-    <td class=\"statTableTopRow\">$FG%</td>
-    <td class=\"statTableTopRow\">$PPS</td>
-    <td class=\"statTableTopRow\">$AST%</td>
-    <td class=\"statTableTopRow\">$lp%</td>
+    <td class=\"tooltip\">$FG%
+    <span class='tooltiptext'>Field Goal Percentage</span></td>
+    <td class=\"tooltip\">$PPS
+    <span class='tooltiptext'>Average points per shot</span></td>
+    <td class=\"tooltip\">$AST%
+    <span class='tooltiptext'>Percentage of assisted made shotes</span></td>
+    <td class=\"tooltip\">$lp%
+    <span class='tooltiptext'>Percentage of shots that occur either behind the threepoint line or right at the basket (layup, dunk, etc.)</span></td>
   </tr>
   <tr class=\"statsTableBottomRow\">
     <td>FG%</td>
     <td>PPS</td>
     <td>AST%</td>
     <td>LAMA%</td>
-  </tr>";
+  </tr> 
+  ";
 ?>
 
 
@@ -147,8 +154,8 @@
 
 <!-- BUTTONS -->
 <ol>
-  <button>Home</button>
-  <button>Away</button>
+  <button>Home Games</button>
+  <button>Away Games</button>
   <br>
   <br>
   <button>Assisted Shots</button>
@@ -162,7 +169,9 @@
   <button>Only Shots Taken by Future NBA Draft Picks</button>
   <br>
   <br>
-  <button class=plot>PLOT!</button>
+  <br>
+  <button class=plot>PLOT</button> 
+  <button class=reset>RESET</button>
 </ol>
 
 <script>
