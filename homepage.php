@@ -254,19 +254,19 @@ function test_input($data) {
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
 
   <br>
-  LAMA:
+ 
   <br>
   <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="true") echo "checked";?> value="true">LAMA Shots
   <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="false") echo "checked";?> value="false">Non-LAMA Shots
   <input type="radio" name="lama_radio" <?php if (isset($lama_radio) && $current_lama=="both") echo "checked";?> value="both">Both  
   <br><br>
-  ASSISTED:
+  
   <br>
   <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="true") echo "checked";?> value="true">Assisted Shots
   <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="false") echo "checked";?> value="false">Non-Assisted Shots
   <input type="radio" name="assist_radio" <?php if (isset($assist_radio) && $current_assist=="both") echo "checked";?> value="both">Both  
   <br><br>
-  HOME/AWAY:
+  
   <br>
   <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="true") echo "checked";?> value="true">Home Games
   <input type="radio" name="home_radio" <?php if (isset($home_radio) && $current_home=="false") echo "checked";?> value="false">Away Games
@@ -274,7 +274,7 @@ function test_input($data) {
   
 
   <br><br>
-  <input type="submit" name="submit" value="Submit">  
+  <input type="submit" name="submit" value="PLOT" class="plot">  
 </form>
 
 <?php

@@ -113,7 +113,7 @@ ol{
     padding-left: 0;
 }
 
-button.plot, button.reset {
+input.plot, button.reset {
     margin-left: 8px;
     background-color: white;
     border: red;
