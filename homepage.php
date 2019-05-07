@@ -48,7 +48,7 @@ $shot = $db->shot;
 
 $current_season = '2018-2019';
 $current_team = 'DAVIDSON';
-$current_lama = $current_assist = $current_home = $current_drafted = "both";
+$current_lama = $current_assist = $current_home = $current_drafted = $current_home_string = $current_drafted_string  = "both";
 
 $all_teams = $team->find();
 $teams = array();
@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $current_assist = test_input($_POST["assist_radio"]);
   }
-
+ 
   if (empty($_POST["home_radio"])) {
     $current_home = "both";
     $current_home_string = $current_home;
@@ -177,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $current_home = test_input($_POST["home_radio"]);
     $current_home_string = $current_home;
   }
-
+  
   if (empty($_POST["drafted_radio"])) {
     $current_drafted = "both";
     $current_drafted_string = $current_drafted;
