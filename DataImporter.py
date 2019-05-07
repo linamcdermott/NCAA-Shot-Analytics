@@ -142,7 +142,8 @@ def importData():
                             "type": row[8],
                             "assist" : row[9],
                             "points": points,
-                            "LAMA": lama_bool
+                            "LAMA": lama_bool,
+                            "home": home_bool
                         }
                         shot_id = shot.insert_one(shot_doc)
 
