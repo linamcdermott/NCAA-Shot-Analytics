@@ -1,5 +1,5 @@
 """
-Data importer for NCAA Divsion I basketball shots taken from the 
+Data importer for NCAA Divsion I basketball shots taken from the
 2013-2014 season to the 2018-2019 season.
 
 Authors: Ana Hayne, Alex Hazan, Lina McDermott, and Matt Wang
@@ -18,7 +18,7 @@ def importData():
 
     team = db["team"]
     shot = db["shot"]
-    
+
     x = team.delete_many({})
     y = shot.delete_many({})
 
@@ -38,7 +38,7 @@ def importData():
 
     in_file.close()
 
-    # Get shot data. 
+    # Get shot data.
     for i in range(13,19):
         season = "20"+ str(i) + "-20" + str(i+1)
 
@@ -67,7 +67,7 @@ def importData():
                     school_2 = row[2]
                     if(row[2][-2:] == "ST"):
                         school_2 = row[2] + "ATE"
-                    
+
                     school = row[1]
                     if(row[1][-3:] == " ST"):
                        school = row[1] + "ATE"
@@ -97,7 +97,7 @@ def importData():
                         lama_bool = True
                     else:
                         lama_bool = False
-                    
+
                     # Update points.
                     if (make_bool):
                         if (shot_type == "THREE POINT JUMPER"):
@@ -128,7 +128,7 @@ def importData():
                         team_id = team.insert_one(team_doc).inserted_id
                     else:
                         team_id = team_obj.get("_id")
-                    
+
                     # Only include shots that are not beyond half-court.
                     if (float(row[3]) <= 50.0):
                         # Create shot doc.
@@ -144,7 +144,8 @@ def importData():
                             "type": row[8],
                             "assist" : row[9],
                             "points": points,
-                            "LAMA": lama_bool
+                            "LAMA": lama_bool,
+                            "home": home_bool,
                         }
                         shot_id = shot.insert_one(shot_doc)
 
@@ -160,7 +161,7 @@ def importData():
                 newvals = {"$set": {"tournament": True }}
 
                 team.update_one(myquery, newvals)
- 
+
 def main():
     importData()
 
