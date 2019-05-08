@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <title>BA$KET$</title>
+        <title>BASKETS</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
 
@@ -10,13 +10,14 @@
 
 
  <div class="description">
- <h1 style="position:relative;"><span>Ba$ket$</span></h1>
+ <h1 style="position:relative;"><span>Baskets</span></h1>
  <p>A basketball shot analytics website.</p>
  <p> We scraped ESPN and created a database of NCAA Division I men's basketball shots from the past 
  six seasons. Our goal was to create a tool that could query the database and analyze the direction 
  of shot selection in college basketball. </p>
  <p>Has the analytics craze that has consumed the NBA affected college basketball? Has 
  shot selection diverted from the mid-range to the three-point line and the area close to the basket?</p>
+ <p> Red dots represent made shots and white dots represent missed shots. </p>  
  <p> <i> LM, AH, MW, AH <i> </p> 
  </div>
 
@@ -117,9 +118,7 @@ echo "</select> <br><br>";
 
 echo "<form action=\"#\" method=\"post\">
 <select name=\"teams[]\" class = \"customSelect\">
-<option value='ALL TEAMS'>ALL TEAMS</option>
-<option value='TOURNAMENT TEAMS'>TOURNAMENT TEAMS</option>
-<option value='NON-TOURNAMENT TEAMS'>NON-TOURNAMENT TEAMS</option>";
+<option value='TOP 10 TEAMS'>TOP 10 TEAMS</option>;";
 foreach($teams as $t){  
   if($t == $current_team){
     echo "<option value=$t selected>$t</option>";
@@ -238,14 +237,8 @@ function test_input($data) {
 
 <?php
 
-if($current_team == 'ALL TEAMS'){
-  $team_selection = $team->find(array('season' => $current_season));
-}
-elseif ($current_team == "TOURNAMENT TEAMS"){
-  $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
-}
-elseif ($current_team == "NON-TOURNAMENT TEAMS"){
-  $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
+if ($current_team == "TOP 10 TEAMS"){
+  $team_selection = $team->find(array('top10' => true, 'season' => $current_season));
 }
 else{
   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));

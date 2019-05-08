@@ -326,9 +326,9 @@ span.dot_miss{
     height: 5px;
     width: 5px;
     position: absolute;
-    background-color: grey;
+    background-color: white;
     border-radius: 50%;
-    opacity: .3;
+    opacity: .55;
     display: inline-block;
 }
 
