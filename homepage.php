@@ -48,7 +48,7 @@ $team = $db->team;
 $shot = $db->shot;
 
 $current_season = '2018-2019';
-$current_team = 'DAVIDSON';
+$current_team = 'DUKE';
 $current_lama = $current_assist = $current_home = $current_drafted = $current_home_string = $current_drafted_string  = "both";
 
 $all_teams = $team->find();
@@ -63,32 +63,6 @@ foreach($all_teams as $t){
 }
 sort($teams);
 
-
-// if(isset($_POST['submit'])){
-//   // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
-//   foreach ($_POST['Season'] as $select)
-//   {
-//     $current_season = $select; // Displaying Selected Value
-//   }
-
-//   foreach ($_POST['teams'] as $select)
-//   {
-//     $current_team = $select; // Displaying Selected Value
-//   }
-// }
-
-// if($current_team == 'ALL TEAMS'){
-//   $team_selection = $team->find(array('season' => $current_season));
-// }
-// elseif ($current_team == "TOURNAMENT TEAMS"){
-//   $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
-// }
-// elseif ($current_team == "NON-TOURNAMENT TEAMS"){
-//   $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
-// }
-// else{
-//   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
-// }
 
 $makes = 0;
 $misses = 0;
@@ -107,6 +81,7 @@ foreach($all_years as $yr){
     echo "<option value=$yr selected>$yr</option>";
   }
   else{
+
     echo "<option value=$yr >$yr</option>";
   }
  
@@ -119,13 +94,19 @@ echo "</select> <br><br>";
 echo "<form action=\"#\" method=\"post\">
 <select name=\"teams[]\" class = \"customSelect\">
 <option value='TOP 10 TEAMS'>TOP 10 TEAMS</option>;";
+
 foreach($teams as $t){  
-  if($t == $current_team){
-    echo "<option value=$t selected>$t</option>";
+  $t_str = (string) $t;
+  $t_dash = str_replace(" ","-",$t_str);
+  if($t_str == $current_team){
+    
+    echo "<option value=$t_dash selected>$t_str</option>";
   }
   else{
-    echo "<option value=$t>$t</option>";
+    echo "<option value=$t_dash>$t_str</option>";
   }
+
+  
  
 
 }
@@ -147,11 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   }
   if(empty($_POST['teams'])){
-    $current_team = "DAVIDSON";
+    //$current_team = "DAVIDSON";
   }else{
     foreach ($_POST['teams'] as $select)
     {
-      $current_team = $select; // Displaying Selected Value
+      
+      $select_space = str_replace("-"," ",$select);
+      $current_team =  $select_space; // Displaying Selected Value
+      
     }
 
   }
@@ -241,6 +225,7 @@ if ($current_team == "TOP 10 TEAMS"){
   $team_selection = $team->find(array('top10' => true, 'season' => $current_season));
 }
 else{
+
   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
 }
 
@@ -299,13 +284,8 @@ foreach($team_selection as $team){
 
 
 $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
-//$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
+
 $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
-//$make_count = count($shot_makes);
-//$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
-// echo "<p> $make_count </p>";
-
-
 
 
 
