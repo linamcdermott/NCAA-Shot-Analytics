@@ -118,7 +118,7 @@ echo "</select> <br><br>";
 echo "<form action=\"#\" method=\"post\">
 <select name=\"teams[]\" class = \"customSelect\">
 <option value='ALL TEAMS'>ALL TEAMS</option>
-<option value='TOP 25 TEAMS'>TOP 25 TEAMS</option>;";
+<option value='TOP 10 TEAMS'>TOP 10 TEAMS</option>;";
 foreach($teams as $t){  
   if($t == $current_team){
     echo "<option value=$t selected>$t</option>";
@@ -240,8 +240,8 @@ function test_input($data) {
 if($current_team == 'ALL TEAMS'){
   $team_selection = $team->find(array('season' => $current_season));
 }
-elseif ($current_team == "TOP 25 TEAMS"){
-  $team_selection = $team->find(array('top25' => true, 'season' => $current_season));
+elseif ($current_team == "TOP 10 TEAMS"){
+  $team_selection = $team->find(array('top10' => true, 'season' => $current_season));
 }
 else{
   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
