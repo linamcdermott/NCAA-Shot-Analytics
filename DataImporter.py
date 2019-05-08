@@ -173,7 +173,7 @@ def importData():
             
                 myquery = {"$and" : [
                                 {"season": szn}, {"school": schl}]}
-                print myquery
+                # print myquery
                 newvals = {"$set": {"top10": True}}
 
                 team.update_one(myquery, newvals)
