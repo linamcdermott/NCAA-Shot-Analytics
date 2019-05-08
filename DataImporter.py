@@ -163,7 +163,7 @@ def importData():
 
                 team.update_one(myquery, newvals)"""
 
-    filename = "top25.csv"
+    filename = "top10.csv"
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter = ',')
         for row in csv_reader:
