@@ -18,7 +18,7 @@ def importData():
 
     team = db["team"]
     shot = db["shot"]
-    """
+    
     x = team.delete_many({})
     y = shot.delete_many({})
 
@@ -124,7 +124,7 @@ def importData():
                         "school" : school,
                         "season" : season,
                         "tournament": False,
-                        "top25": False
+                        "top10": False
                         }
                         team_id = team.insert_one(team_doc).inserted_id
                     else:
@@ -161,7 +161,7 @@ def importData():
                                 {"season": row[0]}, {"school": row[1]}]}
                 newvals = {"$set": {"tournament": True }}
 
-                team.update_one(myquery, newvals)"""
+                team.update_one(myquery, newvals)
 
     filename = "top10.csv"
     with open(filename) as csv_file:
@@ -174,7 +174,7 @@ def importData():
                 myquery = {"$and" : [
                                 {"season": szn}, {"school": schl}]}
                 print myquery
-                newvals = {"$set": {"top25": True}}
+                newvals = {"$set": {"top10": True}}
 
                 team.update_one(myquery, newvals)
 
