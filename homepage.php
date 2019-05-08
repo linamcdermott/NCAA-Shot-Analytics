@@ -63,33 +63,8 @@ foreach($all_teams as $t){
 }
 sort($teams);
 
-
-// if(isset($_POST['submit'])){
-//   // As output of $_POST['Season'] is an array we have to use foreach Loop to display individual value
-//   foreach ($_POST['Season'] as $select)
-//   {
-//     $current_season = $select; // Displaying Selected Value
-//   }
-
-//   foreach ($_POST['teams'] as $select)
-//   {
-//     $current_team = $select; // Displaying Selected Value
-//   }
-// }
-
-// if($current_team == 'ALL TEAMS'){
-//   $team_selection = $team->find(array('season' => $current_season));
-// }
-// elseif ($current_team == "TOURNAMENT TEAMS"){
-//   $team_selection = $team->find(array('tournament' => true, 'season' => $current_season));
-// }
-// elseif ($current_team == "NON-TOURNAMENT TEAMS"){
-//   $team_selection = $team->find(array('tournament' => false,'season' => $current_season));
-// }
-// else{
-//   $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
-// }
-
+// FOR STATS
+$total = 0;
 $makes = 0;
 $misses = 0;
 $points = 0;
@@ -241,7 +216,7 @@ if ($current_team == "TOP 10 TEAMS"){
   $team_selection = $team->find(array('top10' => true, 'season' => $current_season));
 }
 else{
-  $team_selection = $team->find(array('school' => $current_team,'season' => $current_season));
+  $team_selection = $team->find(array('school' => $current_team, 'season' => $current_season));
 }
 
 foreach($team_selection as $team){
@@ -297,43 +272,55 @@ foreach($team_selection as $team){
   }
 
 
+  $shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
+  //$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
+  $shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
+  //$make_count = count($shot_makes);
+  //$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
+  // echo "<p> $make_count </p>";
 
-$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
-//$shot_makes = $shot ->find(['team_id' => $team['_id'],  'made' => true, 'LAMA' => $query_lama]);
-$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama, 'assist' => $query_assist, 'player_drafted' => $query_drafted, 'home' => $query_home]);
-//$make_count = count($shot_makes);
-//$shot_misses = $shot ->find(['team_id' => $team['_id'],  'made' => false, 'LAMA' => $query_lama]);
-// echo "<p> $make_count </p>";
+  // echo "$makes $team[_id] ";
 
-
-
-
-
-
-foreach($shot_makes as $row){
-  $right = $row['yloc'];
-  $left = $row['xloc'] * 1.8;
-  $makes++;
-  $points += $row['points'];
-  if ($row['assist'] != 'n/a'){
-    $assists += 1;
+  foreach($shot_makes as $row) {
+    $right = $row['yloc'];
+    $left = $row['xloc'] * 1.8;
+    $makes += 1;
+    $points += $row['points'];
+    if ($row['assist'] != 'n/a'){
+      $assists += 1;
+    }
+    if($row['LAMA'] == true){
+      $LAMA += 1;
+    }
+    echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
   }
-  if($row['LAMA'] == true){
-    $LAMA += 1;
+
+  foreach($shot_misses as $row){
+    $right = $row['yloc'];
+    $left = $row['xloc'] * 1.8;
+    $misses += 1;
+    if($row['LAMA'] == true){
+      $LAMA += 1;
+    }
+    echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
   }
-  echo "<span class = \"dot_make\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
+
+  // CALCULATE STATS
+  $total = $total + $makes + $misses;
+
 }
-$count2 = 0;
-foreach($shot_misses as $row){
-  $right = $row['yloc'];
-  $left = $row['xloc'] * 1.8;
-  $misses++;
-  if($row['LAMA'] == true){
-    $LAMA += 1;
-  }
-  echo "<span class = \"dot_miss\" style= \"position:absolute;right:$right%;bottom:$left%;\"> </span>";
-  }
 
+if($total <= 0){
+  $FG = 0.00;
+  $PPS = 0.00;
+  $AST = 0.00;
+  $lp = 0.00;
+}
+else{
+  $FG = round($makes / ($total) * 100,1);
+  $PPS = round($points / ($total),3);
+  $AST = round($assists / $makes * 100,1);
+  $lp = round($LAMA / ($total) * 100,1);
 }
 
 echo "<div class='current'>";
@@ -342,21 +329,11 @@ echo "<p> LAMA: $current_lama</p>";
 echo "<p> AST: $current_assist</p>";
 echo "<p> HOME: $current_home_string</p>";
 echo "<p> DRAFTED PLAYERS: $current_drafted_string</p>";
+// echo "<p> makes: $makes</p>";
+// echo "<p> misses: $misses</p>";
+// echo "<p> total: $total</p>";
+// echo "<p> points: $points</p>";
 echo "</div>";
-
-$total = $makes + $misses;
-if($total <= 0){
-$FG = 0.00;
-$PPS = 0.00;
-$AST = 0.00;
-$lp = 0.00;
-}
-else{
-$FG = round($makes / ($total) * 100,1);
-$PPS = round($points / ($total),3);
-$AST = round($assists / $makes * 100,1);
-$lp = round($LAMA / ($total) * 100,1);
-}
 
 
 echo"
